@@ -4,13 +4,14 @@
   --contact-text: #0a4048;
   --contact-line: #d7dde1;
   --contact-input: #d2d6d8;
+  --teal: #044b54;
   --font-sans: Inter, sans-serif;
   --font-serif: 'Cormorant Garamond', serif;
   --font-size-nav: 12px;
   --font-size-eyebrow: 10px;
   --font-size-body: 20px;
   --font-size-lead: 26px;
-  --font-size-title: 68px;
+  --font-size-title: 61.2px;
 }
 
 * {
@@ -138,6 +139,25 @@ body {
   margin: 4px 0 0;
   font-size: var(--font-size-lead);
   color: #123541;
+}
+
+.contact-map-card,
+.contact-form-panel {
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.contact-map-card:hover,
+.contact-form-panel:hover {
+  background: var(--teal);
+  color: #ecf6f6;
+  transform: translateY(-2px);
+}
+
+.contact-map-card:hover span,
+.contact-form-panel:hover .contact-consent-note,
+.contact-form-panel:hover .contact-form label {
+  color: #d3e6e8;
 }
 
 .contact-map-card {
@@ -292,7 +312,7 @@ body {
   }
 
   .contact-title {
-    font-size: 56px;
+    font-size: 50.4px;
   }
 
   .contact-intro,

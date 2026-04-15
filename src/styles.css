@@ -11,8 +11,8 @@
   --font-size-eyebrow: 10px;
   --font-size-body: 20px;
   --font-size-lead: 26px;
-  --font-size-title: 68px;
-  --font-size-subtitle: 48px;
+  --font-size-title: 61.2px;
+  --font-size-subtitle: 43.2px;
 }
 
 * {
@@ -158,6 +158,41 @@ h1 em {
   object-fit: cover;
 }
 
+.hero-card,
+.feature-card,
+.project-card {
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.hero-card:hover,
+.feature-card:hover,
+.project-card:hover {
+  background: var(--teal);
+  color: #ecf6f6;
+  transform: translateY(-2px);
+}
+
+.feature-card:hover .line {
+  background: #ecf6f6;
+}
+
+.feature-card:hover p,
+.project-card:hover p,
+.project-card:hover footer,
+.project-card:hover .chip,
+.project-card:hover .tag-row span,
+.project-card:hover h3,
+.project-card:hover h4 {
+  color: #d3e6e8;
+  border-top-color: rgba(236, 246, 246, 0.35);
+}
+
+.project-card:hover .chip,
+.project-card:hover .tag-row span {
+  background: rgba(211, 230, 232, 0.16);
+}
+
 .features {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -202,7 +237,7 @@ h1 em {
 }
 
 .impact-head h2 {
-  font-size: 66px;
+  font-size: 59.4px;
   line-height: 0.95;
 }
 
@@ -222,7 +257,7 @@ h1 em {
 }
 
 .project-card h3 {
-  font-size: 48px;
+  font-size: 43.2px;
 }
 
 .chip {
@@ -297,7 +332,7 @@ h1 em {
 }
 
 .project-card.banner h3 {
-  font-size: 43px;
+  font-size: 38.7px;
   line-height: 0.94;
   align-self: flex-start;
   margin-top: auto;
@@ -328,7 +363,7 @@ h1 em {
 }
 
 .final-cta h2 {
-  font-size: 72px;
+  font-size: 64.8px;
   line-height: 0.92;
 }
 
@@ -380,7 +415,7 @@ h1 em {
   h1,
   .impact-head h2,
   .final-cta h2 {
-    font-size: 56px;
+    font-size: 50.4px;
   }
 
   .hero {
