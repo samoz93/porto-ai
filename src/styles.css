@@ -5,6 +5,14 @@
   --muted: #5f7079;
   --teal: #044b54;
   --line: #c5cdd2;
+  --font-sans: Inter, sans-serif;
+  --font-serif: 'Cormorant Garamond', serif;
+  --font-size-nav: 12px;
+  --font-size-eyebrow: 10px;
+  --font-size-body: 20px;
+  --font-size-lead: 26px;
+  --font-size-title: 68px;
+  --font-size-subtitle: 48px;
 }
 
 * {
@@ -13,7 +21,7 @@
 
 body {
   margin: 0;
-  font-family: Inter, sans-serif;
+  font-family: var(--font-sans);
   background: var(--bg);
   color: var(--text);
 }
@@ -36,7 +44,7 @@ body {
 }
 
 .brand {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-serif);
   font-style: italic;
   font-size: 26px;
 }
@@ -49,7 +57,7 @@ body {
 .nav a {
   text-decoration: none;
   color: #5c6b74;
-  font-size: 12px;
+  font-size: var(--font-size-nav);
   letter-spacing: 0.06em;
 }
 
@@ -68,7 +76,7 @@ body {
 }
 
 .eyebrow {
-  font-size: 10px;
+  font-size: var(--font-size-eyebrow);
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: #6a7981;
@@ -80,12 +88,12 @@ h2,
 h3,
 h4 {
   margin: 0;
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-serif);
   font-weight: 400;
 }
 
 h1 {
-  font-size: 68px;
+  font-size: var(--font-size-title);
   line-height: 0.95;
   max-width: 760px;
 }
@@ -98,7 +106,7 @@ h1 em {
 .lead {
   max-width: 620px;
   color: var(--muted);
-  font-size: 26px;
+  font-size: var(--font-size-lead);
   line-height: 1.55;
   margin: 28px 0;
 }
@@ -168,7 +176,7 @@ h1 em {
 }
 
 .feature-card h3 {
-  font-size: 39px;
+  font-size: var(--font-size-subtitle);
 }
 
 .feature-card p,
@@ -176,7 +184,7 @@ h1 em {
 .project-card p,
 .footer p {
   color: #5f7079;
-  font-size: 20px;
+  font-size: var(--font-size-body);
   line-height: 1.5;
 }
 
