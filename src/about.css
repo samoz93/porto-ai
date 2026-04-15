@@ -5,13 +5,14 @@
   --about-muted: #5f7079;
   --about-line: #d7dde1;
   --about-deep: #024c55;
+  --teal: #044b54;
   --font-sans: Inter, sans-serif;
   --font-serif: 'Cormorant Garamond', serif;
   --font-size-nav: 12px;
   --font-size-eyebrow: 10px;
   --font-size-body: 20px;
   --font-size-lead: 26px;
-  --font-size-title: 72px;
+  --font-size-title: 64.8px;
 }
 
 * {
@@ -109,6 +110,30 @@ body {
   margin-top: 30px;
 }
 
+.about-portrait-card,
+.about-expertise-card {
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.about-portrait-card:hover,
+.about-expertise-card:hover {
+  background: var(--teal);
+  color: #ecf6f6;
+  transform: translateY(-2px);
+}
+
+.about-expertise-card:hover p,
+.about-expertise-card:hover h3,
+.about-portrait-card:hover blockquote {
+  color: #d3e6e8;
+}
+
+.about-expertise-card:hover .about-tag-row span {
+  background: rgba(211, 230, 232, 0.16);
+  color: #d3e6e8;
+}
+
 .about-journey-grid {
   display: grid;
   grid-template-columns: 0.9fr 1.3fr;
@@ -146,7 +171,7 @@ body {
 .about-journey-grid h2,
 .about-expertise h2,
 .about-balance h2 {
-  font-size: 58px;
+  font-size: 52.2px;
   line-height: 0.97;
 }
 
@@ -178,7 +203,7 @@ body {
 }
 
 .about-timeline-item h3 {
-  font-size: 42px;
+  font-size: 37.8px;
   line-height: 1;
   margin-bottom: 4px;
 }
@@ -212,7 +237,7 @@ body {
 }
 
 .about-expertise-card h3 {
-  font-size: 42px;
+  font-size: 37.8px;
   line-height: 1;
 }
 
@@ -323,7 +348,7 @@ body {
   }
 
   .about-hero h1 {
-    font-size: 58px;
+    font-size: 52.2px;
   }
 
   .about-journey-grid,
