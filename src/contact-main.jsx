@@ -15,7 +15,7 @@ function ContactApp() {
         <div className="contact-brand">Sameh Zoaa</div>
         <nav className="contact-nav">
           {['Home', 'About', 'Projects', 'Contact'].map((item) => (
-            <a key={item} className={item === 'Contact' ? 'active' : ''} href={item === 'Home' ? '/' : '#'}>
+            <a key={item} className={item === 'Contact' ? 'active' : ''} href={item === 'Home' ? '/' : item === 'About' ? '/about.html' : item === 'Contact' ? '/contact.html' : '#'}>
               {item}
             </a>
           ))}
