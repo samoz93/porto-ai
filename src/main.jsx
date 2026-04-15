@@ -24,7 +24,7 @@ function App() {
         <div className="brand">Sameh Zoca</div>
         <nav className="nav">
           {['Home', 'About', 'Projects', 'Contact'].map((item, idx) => (
-            <a key={item} className={idx === 0 ? 'active' : ''} href={item === 'Contact' ? '/contact.html' : '#'}>
+            <a key={item} className={idx === 0 ? 'active' : ''} href={item === 'Contact' ? '/contact.html' : item === 'About' ? '/about.html' : '/'}>
               {item}
             </a>
           ))}
