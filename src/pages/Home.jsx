@@ -1,25 +1,31 @@
-import React from 'react';
-import { Navbar } from '../components/Navbar';
-import { Footer } from '../components/Footer';
-import me from "../img/me.jpeg"
+import { Footer } from "../components/Footer";
+import { Navbar } from "../components/Navbar";
+import { SEOHead } from "../components/SEOHead";
+import me from "../img/me.jpeg";
 const features = [
   {
-    title: 'Clinical Logic',
-    text: 'Applying diagnostic frameworks to software architecture. Every line of code is treated with the same meticulous care as a patient diagnosis.',
+    title: "Clinical Logic",
+    text: "Applying diagnostic frameworks to software architecture. Every line of code is treated with the same meticulous care as a patient diagnosis.",
   },
   {
-    title: 'Technical Depth',
-    text: 'Full-stack expertise tailored for health-tech environments. Scalable, secure, and compliant software solutions for modern medicine.',
+    title: "Technical Depth",
+    text: "Full-stack expertise tailored for health-tech environments. Scalable, secure, and compliant software solutions for modern medicine.",
   },
   {
-    title: 'Consultant Mindset',
-    text: 'Bridging stakeholders from both medical registries and dev teams to create unified, high-performance digital tools.',
+    title: "Consultant Mindset",
+    text: "Bridging stakeholders from both medical registries and dev teams to create unified, high-performance digital tools.",
   },
 ];
 
 export function Home() {
   return (
     <div className="page">
+      <SEOHead
+        title="Home"
+        description="Sameh Zoaa - Full-stack software engineer combining clinical precision with cutting-edge technology. Specializing in health-tech, system design, and digital transformation."
+        keywords="full-stack developer, health-tech, clinical software, software engineer, system design, digital health"
+        url="https://samoz93.github.io/porto-ai/"
+      />
       <Navbar />
 
       <section className="hero section">
@@ -31,7 +37,9 @@ export function Home() {
             with <em>Software Innovation.</em>
           </h1>
           <p className="lead">
-            A Pratisyen Hekim and Software Consultant bridging the gap between medicine and technology. Delivering robust digital solutions for complex healthcare ecosystems.
+            A Pratisyen Hekim and Software Consultant bridging the gap between
+            medicine and technology. Delivering robust digital solutions for
+            complex healthcare ecosystems.
           </p>
           <div className="cta-row">
             <button className="btn btn-primary">View Portfolio →</button>
@@ -39,10 +47,7 @@ export function Home() {
           </div>
         </div>
         <div className="hero-card">
-          <img
-            src={me}
-            alt="Consultant portrait"
-          />
+          <img src={me} alt="Consultant portrait" />
         </div>
       </section>
 
@@ -69,7 +74,8 @@ export function Home() {
             </h2>
           </div>
           <p>
-            From the ER to the IDE, my work is defined by a commitment to system excellence and operational reliability.
+            From the ER to the IDE, my work is defined by a commitment to system
+            excellence and operational reliability.
           </p>
         </div>
 
@@ -78,7 +84,9 @@ export function Home() {
             <span className="chip">Current Role</span>
             <h3>Ersoy Hospital</h3>
             <p>
-              Practitioner physician integrating software workflows to optimize patient care and data management within a fast-paced clinical setting.
+              Practitioner physician integrating software workflows to optimize
+              patient care and data management within a fast-paced clinical
+              setting.
             </p>
             <footer>
               <span>Clinical Operations</span>
@@ -90,7 +98,9 @@ export function Home() {
             <span className="chip">Software Consultant</span>
             <h3>Health Center</h3>
             <p>
-              Spearheaded the digital transformation of local health registries, implementing secure software architectures for critical data handling.
+              Spearheaded the digital transformation of local health registries,
+              implementing secure software architectures for critical data
+              handling.
             </p>
             <footer>
               <span>Tech Consulting</span>
@@ -124,7 +134,10 @@ export function Home() {
           <br />
           healthcare infrastructure?
         </h2>
-        <p>Available for software consulting engagements and medical-technical integrations.</p>
+        <p>
+          Available for software consulting engagements and medical-technical
+          integrations.
+        </p>
         <div className="cta-row">
           <button className="btn btn-primary">Book Consultation</button>
           <button className="btn btn-secondary">View Projects</button>

@@ -1,17 +1,23 @@
-import React from 'react';
-import '../contact.css';
-import { Navbar } from '../components/Navbar';
-import { Footer } from '../components/Footer';
+import { Footer } from "../components/Footer";
+import { Navbar } from "../components/Navbar";
+import { SEOHead } from "../components/SEOHead";
+import "../contact.css";
 
 const contactItems = [
-  { label: 'Email', value: 'samozayncom@gmail.com', icon: '✉' },
-  { label: 'Location', value: 'İstanbul', icon: '📍' },
-  { label: 'LinkedIn', value: 'linkedin.com/in/samoz93', icon: '◉' },
+  { label: "Email", value: "samozayncom@gmail.com", icon: "✉" },
+  { label: "Location", value: "İstanbul", icon: "📍" },
+  { label: "LinkedIn", value: "linkedin.com/in/samoz93", icon: "◉" },
 ];
 
 export function Contact() {
   return (
     <div className="contact-page">
+      <SEOHead
+        title="Contact"
+        description="Get in touch with Sameh Zoaa for software consulting or healthcare technology inquiries. Based in Istanbul, offering precision-driven solutions for digital health projects."
+        keywords="contact, software consultant, healthcare consultant, consultation request, get in touch, Istanbul"
+        url="https://samoz93.github.io/porto-ai/contact"
+      />
       <Navbar />
 
       <main className="contact-section contact-layout">
@@ -23,8 +29,8 @@ export function Contact() {
             <em>clinical gap.</em>
           </h1>
           <p className="contact-intro">
-            Whether you are seeking software consultancy or general practice insights, I offer a precision-driven
-            approach to every project.
+            Whether you are seeking software consultancy or general practice
+            insights, I offer a precision-driven approach to every project.
           </p>
 
           <div className="contact-details-list">
@@ -41,13 +47,20 @@ export function Contact() {
             ))}
           </div>
 
-          <div className="contact-map-card" role="img" aria-label="Map showing current base at Istanbul">
+          <div
+            className="contact-map-card"
+            role="img"
+            aria-label="Map showing current base at Istanbul"
+          >
             <span>Current Base: Istanbul</span>
           </div>
         </section>
 
         <section className="contact-form-panel">
-          <form className="contact-form" onSubmit={(event) => event.preventDefault()}>
+          <form
+            className="contact-form"
+            onSubmit={(event) => event.preventDefault()}
+          >
             <label>
               Full Name
               <input type="text" placeholder="Dr. John Doe / Eng. Jane Smith" />
@@ -69,7 +82,10 @@ export function Contact() {
 
             <label>
               Message
-              <textarea rows={6} placeholder="Please describe your clinical or technical requirements..." />
+              <textarea
+                rows={6}
+                placeholder="Please describe your clinical or technical requirements..."
+              />
             </label>
 
             <button type="submit" className="contact-send-btn">
@@ -77,8 +93,9 @@ export function Contact() {
             </button>
 
             <p className="contact-consent-note">
-              By submitting this form, you acknowledge that communications regarding clinical cases must remain
-              anonymized in compliance with medical data standards.
+              By submitting this form, you acknowledge that communications
+              regarding clinical cases must remain anonymized in compliance with
+              medical data standards.
             </p>
           </form>
         </section>
