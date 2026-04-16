@@ -75,9 +75,8 @@
 
 .about-portrait-card img {
   width: 100%;
-  max-width: 470px;
-  height: 620px;
-  object-fit: cover;
+  max-width: max-content;
+  max-height: max-content;
   border-radius: 4px;
 }
 

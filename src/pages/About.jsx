@@ -1,6 +1,7 @@
 import React from 'react';
 import '../about.css';
 import { Navbar } from '../components/Navbar';
+import me from "../img/me.jpeg"
 
 const timeline = [
   {
@@ -73,7 +74,7 @@ export function About() {
         <section className="about-section about-journey-grid">
           <div className="about-portrait-card">
             <img
-              src="https://images.unsplash.com/photo-1614436163996-25cee5f54290?auto=format&fit=crop&w=900&q=80"
+              src={me}
               alt="Portrait of Sameh"
             />
             <blockquote>

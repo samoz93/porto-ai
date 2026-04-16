@@ -39,68 +39,74 @@ const projectsList = [
 
 export function Projects() {
   return (
-    <div className="projects-container">
+    <div className="page">
       <Navbar />
 
       <main>
-        <section className="hero">
+        <section className="hero section">
           <h1>
             Portfolio of
             <br />
             <em>Intentional Systems.</em>
           </h1>
-          <p className="hero-description">
+          <p className="lead">
             A curated selection of cross-disciplinary works bridging medical precision with software architectural logic. Exploring the intersection of human health and digital efficiency.
           </p>
         </section>
 
-        <section className="projects-grid">
-          {projectsList.slice(0, 2).map((project) => (
-            <article key={project.id} className={`project-card ${project.className}`}>
-              <div className="project-image-wrapper">
-                <span className="category-tag">{project.category}</span>
-                <img src={project.image} alt={project.title} />
-              </div>
-              <div className="project-info">
-                <h2>{project.title}</h2>
-                <p>{project.description}</p>
-              </div>
-            </article>
-          ))}
-        </section>
-
-        <section className="secondary-grid">
-          {projectsList.slice(2, 4).map((project) => (
-            <article key={project.id} className={`project-card ${project.className}`}>
-              <div className="project-image-wrapper">
-                <span className="category-tag">{project.category}</span>
-                <img src={project.image} alt={project.title} />
-              </div>
-              <div className="project-info">
-                <h2>{project.title}</h2>
-                <p>{project.description}</p>
-              </div>
-            </article>
-          ))}
-        </section>
-
-        <section className="azkar-section">
-          <div className="azkar-info">
-            <p className="eyebrow">RELIGIOUS / LIFESTYLE</p>
-            <h2>Azkar</h2>
-            <p>
-              A comprehensive digital sanctuary for daily devotion, integrating spiritual practices with a refined, distraction-free architectural layout for religious mindfulness.
-            </p>
-            <a href="#" className="explore-link">
-              EXPLORE SYSTEM <span>↗</span>
-            </a>
+        <section className="section projects-grid-container">
+          <div className="projects-grid">
+            {projectsList.slice(0, 2).map((project) => (
+              <article key={project.id} className={`project-card ${project.className}`}>
+                <div className="project-image-wrapper">
+                  <span className="category-tag">{project.category}</span>
+                  <img src={project.image} alt={project.title} />
+                </div>
+                <div className="project-info">
+                  <h2>{project.title}</h2>
+                  <p>{project.description}</p>
+                </div>
+              </article>
+            ))}
           </div>
-          <div className="azkar-image">
-             <img 
-               src="https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&w=800&q=80" 
-               alt="Azkar Project" 
-               style={{ width: '100%', borderRadius: '4px' }}
-             />
+        </section>
+
+        <section className="section secondary-grid-container">
+          <div className="secondary-grid">
+            {projectsList.slice(2, 4).map((project) => (
+              <article key={project.id} className={`project-card ${project.className}`}>
+                <div className="project-image-wrapper">
+                  <span className="category-tag">{project.category}</span>
+                  <img src={project.image} alt={project.title} />
+                </div>
+                <div className="project-info">
+                  <h2>{project.title}</h2>
+                  <p>{project.description}</p>
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section className="section azkar-section-container">
+          <div className="azkar-section">
+            <div className="azkar-info">
+              <p className="eyebrow">RELIGIOUS / LIFESTYLE</p>
+              <h2>Azkar</h2>
+              <p>
+                A comprehensive digital sanctuary for daily devotion, integrating spiritual practices with a refined, distraction-free architectural layout for religious mindfulness.
+              </p>
+              <a href="#" className="explore-link">
+                EXPLORE SYSTEM <span>↗</span>
+              </a>
+            </div>
+            <div className="azkar-image">
+               <img 
+                 src="https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&w=800&q=80" 
+                 alt="Azkar Project" 
+                 style={{ width: '100%', borderRadius: '4px' }}
+               />
+            </div>
           </div>
         </section>
       </main>

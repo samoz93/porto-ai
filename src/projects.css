@@ -1,58 +1,7 @@
-.projects-container {
-  max-width: var(--container-max-width);
-  margin: 0 auto;
-  padding: 0 40px;
-}
-
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 30px var(--section-padding);
-}
-
-.contact-btn {
-  background: var(--color-teal);
-  color: white;
-  padding: 12px 28px;
-  border-radius: 4px;
-  font-size: 13px;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  text-decoration: none;
-}
-
-.hero {
-  padding: 80px 0 60px;
-}
-
-.hero h1 {
-  font-family: var(--font-serif);
-  font-size: var(--font-size-hero);
-  line-height: 0.9;
-  margin: 0;
-  font-weight: 400;
-  letter-spacing: -0.02em;
-}
-
-.hero h1 em {
-  font-style: italic;
-  font-weight: 400;
-}
-
-.hero-description {
-  margin-top: 40px;
-  font-size: 18px;
-  line-height: 1.6;
-  color: var(--color-muted);
-  max-width: 600px;
-}
-
 .projects-grid {
   display: grid;
   grid-template-columns: 1.5fr 1fr;
-  gap: 60px;
-  margin-bottom: 60px;
+  gap: 40px;
 }
 
 .project-card {
@@ -72,6 +21,11 @@
   width: 100%;
   display: block;
   object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.project-card:hover .project-image-wrapper img {
+  transform: scale(1.02);
 }
 
 .category-tag {
@@ -85,18 +39,19 @@
   text-transform: uppercase;
   letter-spacing: 0.1em;
   color: #999;
+  z-index: 1;
 }
 
 .project-info h2 {
   font-family: var(--font-serif);
-  font-size: 38px;
+  font-size: var(--font-size-subtitle);
   font-style: italic;
   margin: 0 0 16px;
   font-weight: 400;
 }
 
 .project-info p {
-  font-size: 15px;
+  font-size: var(--font-size-body);
   line-height: 1.6;
   color: var(--color-muted);
   margin: 0;
@@ -110,7 +65,6 @@
   display: grid;
   grid-template-columns: 1fr 1.8fr;
   gap: 40px;
-  margin-bottom: 60px;
 }
 
 .azkar-section {
@@ -121,7 +75,6 @@
   grid-template-columns: 1fr 1fr;
   gap: 60px;
   align-items: center;
-  margin-bottom: 80px;
 }
 
 .azkar-info h2 {
@@ -133,7 +86,7 @@
 }
 
 .azkar-info p {
-  font-size: 16px;
+  font-size: var(--font-size-body);
   line-height: 1.7;
   color: #555;
   margin-bottom: 40px;
@@ -152,32 +105,7 @@
   font-weight: 600;
 }
 
-.footer {
-  border-top: 1px solid var(--color-line);
-  padding: 40px var(--section-padding);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 10px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: #999;
-}
-
-.footer-links {
-  display: flex;
-  gap: 30px;
-}
-
-.footer-links a {
-  text-decoration: none;
-  color: inherit;
-}
-
 @media (max-width: 1024px) {
-  .hero h1 {
-    font-size: 70px;
-  }
   .projects-grid, .secondary-grid, .azkar-section {
     grid-template-columns: 1fr;
     gap: 40px;
