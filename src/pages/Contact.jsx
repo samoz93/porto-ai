@@ -12,7 +12,7 @@ const contactItems = [
 export function Contact() {
   return (
     <div className="contact-page">
-      <Navbar className="contact-nav" />
+      <Navbar />
 
       <main className="contact-section contact-layout">
         <section>

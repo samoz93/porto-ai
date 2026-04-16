@@ -1,71 +1,18 @@
-:root {
-  --contact-bg: #e8eaec;
-  --contact-surface: #f2f3f4;
-  --contact-text: #0a4048;
-  --contact-line: #d7dde1;
-  --contact-input: #d2d6d8;
-  --teal: #044b54;
-  --font-sans: Inter, sans-serif;
-  --font-serif: 'Cormorant Garamond', serif;
-  --font-size-nav: 12px;
-  --font-size-eyebrow: 10px;
-  --font-size-body: 20px;
-  --font-size-lead: 26px;
-  --font-size-title: 61.2px;
-}
-
-* {
-  box-sizing: border-box;
-}
-
-body {
-  margin: 0;
-  font-family: var(--font-sans);
-  background: var(--contact-bg);
-  color: var(--contact-text);
-}
-
 .contact-page {
-  max-width: 1260px;
+  max-width: var(--container-max-width);
   margin: 0 auto;
-  min-height: 100vh;
 }
 
 .contact-section {
-  padding: 28px 32px;
+  padding: var(--section-padding);
 }
 
 .contact-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid var(--contact-line);
-}
-
-.contact-brand {
-  font-family: var(--font-serif);
-  font-size: 26px;
-  font-style: italic;
-}
-
-.contact-nav {
-  display: flex;
-  gap: 34px;
-}
-
-.contact-nav a {
-  text-decoration: none;
-  color: #697983;
-  font-size: var(--font-size-nav);
-  line-height: 1;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-}
-
-.contact-nav a.active {
-  color: #163844;
-  border-bottom: 2px solid #163844;
-  padding-bottom: 3px;
+  border-bottom: 1px solid var(--color-line);
+  padding: 24px var(--section-padding);
 }
 
 .contact-layout {
@@ -74,14 +21,6 @@ body {
   gap: 28px;
   padding-top: 46px;
   padding-bottom: 60px;
-}
-
-.contact-eyebrow {
-  margin: 0;
-  font-size: var(--font-size-eyebrow);
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: #48606a;
 }
 
 .contact-title {
@@ -132,7 +71,7 @@ body {
   font-size: var(--font-size-nav);
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  color: #687780;
+  color: var(--color-muted);
 }
 
 .contact-detail-value {
@@ -149,7 +88,7 @@ body {
 
 .contact-map-card:hover,
 .contact-form-panel:hover {
-  background: var(--teal);
+  background: var(--color-teal);
   color: #ecf6f6;
   transform: translateY(-2px);
 }
@@ -171,14 +110,6 @@ body {
   overflow: hidden;
 }
 
-.contact-map-card::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.22), transparent 45%),
-    radial-gradient(circle at 60% 60%, rgba(255, 255, 255, 0.18), transparent 40%);
-}
-
 .contact-map-card span {
   position: relative;
   z-index: 1;
@@ -192,7 +123,7 @@ body {
 }
 
 .contact-form-panel {
-  background: var(--contact-surface);
+  background: var(--color-surface);
   border-radius: 12px;
   border: 1px solid #e0e5e8;
   padding: 48px 52px;
@@ -219,7 +150,7 @@ body {
   width: 100%;
   border: 0;
   border-bottom: 2px solid #96a0a7;
-  background: var(--contact-input);
+  background: #d2d6d8;
   color: #33454e;
   font-size: var(--font-size-body);
   font-family: inherit;
@@ -231,16 +162,12 @@ body {
   min-height: 180px;
 }
 
-.contact-form ::placeholder {
-  color: #8e979d;
-}
-
 .contact-send-btn {
   margin-top: 8px;
   width: fit-content;
   border: 0;
   border-radius: 8px;
-  background: #05505a;
+  background: var(--color-teal);
   color: #f1f7f8;
   text-transform: uppercase;
   letter-spacing: 0.11em;
@@ -263,25 +190,22 @@ body {
 }
 
 .contact-footer {
-  border-top: 1px solid var(--contact-line);
+  border-top: 1px solid var(--color-line);
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-  padding-top: 34px;
-  padding-bottom: 40px;
+  padding: 34px var(--section-padding) 40px;
 }
 
 .contact-footer strong {
   font-size: var(--font-size-nav);
-  letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 
 .contact-footer p {
   margin: 8px 0 0;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: #7c8891;
+  color: var(--color-muted);
   font-size: var(--font-size-eyebrow);
 }
 
@@ -291,40 +215,18 @@ body {
 }
 
 .contact-links a {
-  text-decoration: none;
-  color: #7e8b93;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
   font-size: var(--font-size-eyebrow);
+  color: #7e8b93;
 }
 
 @media (max-width: 1100px) {
-  .contact-nav a {
-    font-size: 11px;
-  }
-
-  .contact-brand {
-    font-size: 22px;
-  }
-
   .contact-layout {
     grid-template-columns: 1fr;
   }
 
   .contact-title {
     font-size: 50.4px;
-  }
-
-  .contact-intro,
-  .contact-detail-value,
-  .contact-form input,
-  .contact-form select,
-  .contact-form textarea {
-    font-size: 20px;
-  }
-
-  .contact-send-btn {
-    font-size: 11px;
   }
 
   .contact-footer {

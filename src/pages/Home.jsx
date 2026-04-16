@@ -1,7 +1,7 @@
 import React from 'react';
 import { Navbar } from '../components/Navbar';
 import { Footer } from '../components/Footer';
-
+import me from "../img/me.jpeg"
 const features = [
   {
     title: 'Clinical Logic',
@@ -40,7 +40,7 @@ export function Home() {
         </div>
         <div className="hero-card">
           <img
-            src="https://images.unsplash.com/photo-1612531385446-f7b6b8f3b7c2?auto=format&fit=crop&w=700&q=80"
+            src={me}
             alt="Consultant portrait"
           />
         </div>

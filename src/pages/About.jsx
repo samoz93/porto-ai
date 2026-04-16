@@ -57,7 +57,7 @@ const expertise = [
 export function About() {
   return (
     <div className="about-page">
-      <Navbar className="about-nav" />
+      <Navbar />
 
       <main>
         <section className="about-section about-hero">
