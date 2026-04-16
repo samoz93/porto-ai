@@ -135,8 +135,8 @@ export function About() {
 
           <div className="about-balance-image">
             <img
-              src="https://images.unsplash.com/photo-1547153760-18fc86324498?auto=format&fit=crop&w=900&q=80"
-              alt="Dancer in motion"
+              src="https://images.unsplash.com/photo-1504609773096-104ff2c73ba4?auto=format&fit=crop&w=1200&q=80"
+              alt="Tango dancers in a fluid embrace"
             />
           </div>
         </section>

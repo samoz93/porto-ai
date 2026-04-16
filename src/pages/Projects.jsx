@@ -2,13 +2,19 @@ import React from 'react';
 import '../projects.css';
 import { Navbar } from '../components/Navbar';
 
+import saferniImg from '../img/saferni.png';
+import guardImg from '../img/guard.png';
+import catgoImg from '../img/catgo.png';
+import apexImg from '../img/apex.png';
+import azkarImg from '../img/azkar.png';
+
 const projectsList = [
   {
     id: 'saferni',
     title: 'Saferni',
     category: 'TRAVEL / UX',
     description: 'A sophisticated travel orchestration platform designed for the Turkish landscape, allowing users to architect personalized itineraries through algorithmic discovery and regional curation.',
-    image: 'https://images.unsplash.com/photo-1527838832700-5059252407fa?auto=format&fit=crop&w=1200&q=80',
+    image: saferniImg,
     className: 'saferni'
   },
   {
@@ -16,7 +22,7 @@ const projectsList = [
     title: 'Guard',
     category: 'HEALTH / IOT',
     description: 'Mobile app to track children\'s location and health via wearable vitals tracking, designed for real-time safety.',
-    image: 'https://images.unsplash.com/photo-1510017803434-a899398421b3?auto=format&fit=crop&w=800&q=80',
+    image: guardImg,
     className: 'guard'
   },
   {
@@ -24,7 +30,7 @@ const projectsList = [
     title: 'Catgo',
     category: 'GAMING / API',
     description: 'A streamlined news and asset intelligence hub for Fortnite players, delivering real-time item shop analysis and competitive updates with a focus on data clarity.',
-    image: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=800&q=80',
+    image: catgoImg,
     className: 'catgo'
   },
   {
@@ -32,7 +38,7 @@ const projectsList = [
     title: 'Apex Tracker',
     category: 'GAMING / ANALYTICS',
     description: 'A performance-driven telemetry dashboard for Apex Legends, offering deep-tier statistical analysis and legend mastery tracking to optimize competitive play.',
-    image: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=1200&q=80',
+    image: apexImg,
     className: 'apex-tracker'
   }
 ];
@@ -43,7 +49,7 @@ export function Projects() {
       <Navbar />
 
       <main>
-        <section className="hero section">
+        <section className="hero projects-hero section">
           <h1>
             Portfolio of
             <br />
@@ -102,7 +108,7 @@ export function Projects() {
             </div>
             <div className="azkar-image">
                <img 
-                 src="https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&w=800&q=80" 
+                 src={azkarImg} 
                  alt="Azkar Project" 
                  style={{ width: '100%', borderRadius: '4px' }}
                />

@@ -4,8 +4,8 @@ import { Navbar } from '../components/Navbar';
 import { Footer } from '../components/Footer';
 
 const contactItems = [
-  { label: 'Email', value: 'samehzooaa@gmail.com', icon: '✉' },
-  { label: 'Location', value: 'İstanbul, Pendik', icon: '📍' },
+  { label: 'Email', value: 'samozayncom@gmail.com', icon: '✉' },
+  { label: 'Location', value: 'İstanbul', icon: '📍' },
   { label: 'LinkedIn', value: 'linkedin.com/in/samoz93', icon: '◉' },
 ];
 
@@ -41,8 +41,8 @@ export function Contact() {
             ))}
           </div>
 
-          <div className="contact-map-card" role="img" aria-label="Map showing current base at Pendik">
-            <span>Current Base: Pendik</span>
+          <div className="contact-map-card" role="img" aria-label="Map showing current base at Istanbul">
+            <span>Current Base: Istanbul</span>
           </div>
         </section>
 

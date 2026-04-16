@@ -1,37 +1,44 @@
-.projects-grid {
+.projects-grid, .secondary-grid {
   display: grid;
-  grid-template-columns: 1.5fr 1fr;
-  gap: 40px;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  margin-bottom: 40px;
 }
 
 .project-card {
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 }
+
 
 .project-image-wrapper {
   position: relative;
   background: var(--color-surface);
   border-radius: 4px;
   overflow: hidden;
-  margin-bottom: 24px;
+  margin-bottom: 20px;
+  height: 400px; /* Scaled down height */
 }
 
 .project-image-wrapper img {
   width: 100%;
+  height: 100%;
   display: block;
   object-fit: cover;
-  transition: transform 0.3s ease;
+  transition: transform 0.6s cubic-bezier(0.33, 1, 0.68, 1);
+  will-change: transform;
 }
 
+/* Parallel/Parallax Effect on Hover */
 .project-card:hover .project-image-wrapper img {
-  transform: scale(1.02);
+  transform: scale(1.1) translateY(-10px);
 }
 
 .category-tag {
   position: absolute;
-  top: 24px;
-  right: 24px;
+  top: 20px;
+  right: 20px;
   background: rgba(255, 255, 255, 0.9);
   padding: 6px 14px;
   border-radius: 20px;
@@ -46,51 +53,62 @@
   font-family: var(--font-serif);
   font-size: var(--font-size-subtitle);
   font-style: italic;
-  margin: 0 0 16px;
+  margin: 0 0 12px;
   font-weight: 400;
 }
 
 .project-info p {
-  font-size: var(--font-size-body);
+  font-size: 16px;
   line-height: 1.6;
   color: var(--color-muted);
   margin: 0;
+  max-width: 90%;
 }
 
+/* Specific adjustments for Guard to match scaled layout */
 .guard .project-image-wrapper img {
-  height: 600px;
-}
-
-.secondary-grid {
-  display: grid;
-  grid-template-columns: 1fr 1.8fr;
-  gap: 40px;
+  height: 100%;
 }
 
 .azkar-section {
   background: var(--color-surface);
-  padding: 80px 60px;
+  padding: 60px;
   border-radius: 4px;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 60px;
+  gap: 40px;
   align-items: center;
+  margin-top: 40px;
+  overflow: hidden;
 }
 
 .azkar-info h2 {
   font-family: var(--font-serif);
-  font-size: 48px;
+  font-size: 42px;
   font-style: italic;
-  margin: 0 0 32px;
+  margin: 0 0 24px;
   font-weight: 400;
 }
 
 .azkar-info p {
-  font-size: var(--font-size-body);
+  font-size: 16px;
   line-height: 1.7;
   color: #555;
-  margin-bottom: 40px;
-  max-width: 440px;
+  margin-bottom: 32px;
+  max-width: 400px;
+}
+
+.azkar-image {
+  overflow: hidden;
+  border-radius: 4px;
+}
+
+.azkar-image img {
+  transition: transform 0.6s cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+.azkar-section:hover .azkar-image img {
+  transform: scale(1.05) translateY(-5px);
 }
 
 .explore-link {
@@ -105,12 +123,21 @@
   font-weight: 600;
 }
 
+.projects-hero{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  min-height: 500px;
+}
+
 @media (max-width: 1024px) {
   .projects-grid, .secondary-grid, .azkar-section {
     grid-template-columns: 1fr;
-    gap: 40px;
+    gap: 32px;
   }
-  .guard .project-image-wrapper img {
-    height: 400px;
+  .project-image-wrapper {
+    height: 300px;
   }
 }
+
+
