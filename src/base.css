@@ -1,0 +1,125 @@
+:root {
+  /* Colors */
+  --color-bg: #e8eaec;
+  --color-surface: #f2f3f4;
+  --color-text: #102936;
+  --color-muted: #5f7079;
+  --color-line: #c5cdd2;
+  --color-teal: #044b54;
+  --color-deep: #024c55;
+
+  /* Typography */
+  --font-sans: 'Inter', sans-serif;
+  --font-serif: 'Cormorant Garamond', serif;
+
+  --font-size-nav: 12px;
+  --font-size-eyebrow: 10px;
+  --font-size-body: 18px;
+  --font-size-lead: 24px;
+  --font-size-subtitle: 32px;
+  --font-size-title: 54px;
+  --font-size-hero: 82px;
+
+  /* Spacing/Layout */
+  --container-max-width: 1400px;
+  --section-padding: 40px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 12px;
+  font-family: var(--font-sans);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-weight: 400;
+}
+
+p {
+  margin: 0;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+.section {
+  padding: var(--section-padding);
+}
+
+.container {
+  max-width: var(--container-max-width);
+  margin: 0 auto;
+}
+
+.eyebrow {
+  font-size: var(--font-size-eyebrow);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  margin-bottom: 20px;
+}
+
+.brand {
+  font-family: var(--font-serif);
+  font-size: 26px;
+  font-style: italic;
+}
+
+.main-nav {
+  display: flex;
+  gap: 34px;
+  align-items: center;
+}
+
+.main-nav a {
+  text-decoration: none;
+  color: var(--color-muted);
+  font-size: var(--font-size-nav);
+  line-height: 1;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  transition: color 0.2s ease;
+}
+
+.main-nav a:hover {
+  color: var(--color-text);
+}
+
+.main-nav a.active {
+  color: var(--color-text);
+  border-bottom: 2px solid var(--color-text);
+  padding-bottom: 3px;
+}
+
+.btn {
+  border: 0;
+  font-size: 11px;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  border-radius: 4px;
+  padding: 14px 22px;
+  cursor: pointer;
+  font-family: var(--font-sans);
+  transition: opacity 0.2s ease;
+}
+
+.btn:hover {
+  opacity: 0.9;
+}
