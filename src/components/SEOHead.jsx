@@ -1,16 +1,17 @@
 import { Helmet } from "react-helmet";
-import { useLocation } from "react-router-dom";
 
 /** Deploy path from Vite `base` (e.g. `/porto-ai/` → `/porto-ai`). */
 function deployBasePath() {
   return (import.meta.env.BASE_URL || "/").replace(/\/$/, "");
 }
 
-/** Canonical + og:url: origin + deploy base + router path. Optional `override` for mirrors / tests. */
-function buildCanonicalUrl(pathname, override, base) {
-  if (override) return override;
-  const pathPart = pathname === "/" ? "/" : pathname;
-  return `${window.location.origin}${base}${pathPart}`;
+/**
+ * Single canonical + og:url: only URL that returns 200 on GitHub Pages with HashRouter
+ * (paths like /about are not real files). Matches sitemap + index.html.
+ * Optional `url` override for staging / mirrors.
+ */
+function siteIndexUrl(base) {
+  return `${window.location.origin}${base}/`;
 }
 
 export function SEOHead({
@@ -23,9 +24,8 @@ export function SEOHead({
   type = "website",
   twitterHandle = "@samoz93",
 }) {
-  const { pathname } = useLocation();
   const base = deployBasePath();
-  const canonicalUrl = buildCanonicalUrl(pathname, url, base);
+  const canonicalUrl = url ?? siteIndexUrl(base);
   const ogImage = image || `${window.location.origin}${base}/og-image.jpg`;
 
   return (
