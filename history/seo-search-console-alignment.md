@@ -4,17 +4,20 @@ Reference: [URL Inspection tool](https://support.google.com/webmasters/answer/90
 
 ## Decisions
 
-1. **Sitemap lists only URLs that HTTP 200** — GitHub Pages project sites do not serve `/about`, `/projects`, `/contact` as real paths without an SPA `404.html` fallback. Listing them invited crawl of non-existent paths. Sitemap now one `loc`: homepage.
-2. **`SEOHead` canonical + `og:url`** — Always the deployed index URL (`…/porto-ai/`), not router path, so user-declared canonical matches a fetchable page (per [URL Inspection](https://support.google.com/webmasters/answer/9012289) indexing expectations).
+1. **Sitemap ↔ HTTP 200** — ~~Homepage-only sitemap~~ → **updated:** SPA `404.html` + path routing; **`sitemap.xml`** lists homepage + `/about`, `/projects`, `/contact`. **Still:** only trust URLs Search Console confirms return **200** (see [`browser-history-github-pages.md`](browser-history-github-pages.md)).
+2. **`SEOHead` canonical + `og:url`** — ~~Always the deployed index URL~~ → **updated:** with **BrowserRouter** + SPA **`404.html`**, set per-route to match `window` path (`pageUrlForRoute`). Re-verify [URL Inspection](https://support.google.com/webmasters/answer/9012289) **HTTP status** still 200 for each inner URL after deploy ([decision tracker](browser-history-github-pages.md)).
 3. **index.html** — `canonical`, `og:url`, Person `url` use trailing slash on site root for consistency.
 4. **robots.txt** — Removed non-standard `Crawl-delay` (Google ignores it; [Google robots docs](https://developers.google.com/search/docs/crawling-indexing/robots/robots_txt)).
 5. **Docs** — `project.md` notes GSC checklist.
 
-## Optional later (not done in this pass)
+## Optional later
 
 - **Profile page / Person JSON-LD** — Validate with [Rich Results Test](https://search.google.com/test/rich-results); fix warnings so “Enhancements” in URL Inspection stays clean.
-- **SPA fallback** — Duplicate `index.html` to `404.html` in deploy + `BrowserRouter` → then restore multi-URL sitemap and per-route canonicals.
 
 ## Update (2026-05-02)
 
-- **BreadcrumbList** — Implemented on **About** and **Contact** (hash URLs in `item`), plus **WebPage** JSON-LD on Home / About / Contact. See `history/vite-helmet-seo.md`.
+- **BreadcrumbList** — On **About**, **Contact**, and (later) **Projects**; breadcrumb `item` URLs now **path-based** after BrowserRouter migration (`browser-history-github-pages.md`). **WebPage** JSON-LD on main routes. See `history/vite-helmet-seo.md`.
+
+## Update (routing + SEO alignment)
+
+- **SPA fallback done** — `scripts/copy-spa-fallback.mjs` + `BrowserRouter`; **BreadcrumbList** now uses **path** URLs; multi-URL sitemap + per-route canonicals/`og:url`/`WebPage.url`. Tracker: **`browser-history-github-pages.md`**.

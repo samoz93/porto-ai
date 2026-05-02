@@ -28,6 +28,7 @@ export function Home() {
         title="Home"
         description={HOME_DESCRIPTION}
         keywords="full-stack developer, health-tech, clinical software, software engineer, system design, digital health"
+        url={pageIndexUrl()}
         openGraph={{ locale: "en_US" }}
         jsonLd={[
           webPageJsonLd({

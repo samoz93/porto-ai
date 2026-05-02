@@ -13,4 +13,7 @@ Align with Search Console: **canonical and `og:url` must be a URL Google can fet
 ## Notes
 
 - Inner routes still get unique `<title>` / description via Helmet (good for JS-aware crawlers / tabs).
-- If you add `404.html` + `BrowserRouter`, you can revisit per-route canonical + multi-URL sitemap.
+
+## Follow-up — BrowserRouter + `404.html`
+
+Per-route canonical + multi-URL sitemap tracked in **`browser-history-github-pages.md`**. Validate **HTTP 200** per path in Search Console — GitHub Pages may behave differently than local `vite preview`.

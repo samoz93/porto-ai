@@ -1,10 +1,16 @@
-import { deployBasePath, siteHashUrl, siteIndexUrl } from "./siteUrl";
+import { deployBasePath, siteIndexUrl, sitePageUrl } from "./siteUrl";
 
 /**
- * WebPage + WebSite context; `pageUrl` stays the index URL per GHP canonical policy.
+ * WebPage + WebSite (`isPartOf.url` always site root, not `${pageUrl}` path).
  */
-export function webPageJsonLd({ title, description, pageUrl, siteName = "Sameh Zoaa Portfolio" }) {
-  const base = pageUrl.replace(/\/$/, "");
+export function webPageJsonLd({
+  title,
+  description,
+  pageUrl,
+  siteName = "Sameh Zoaa Portfolio",
+  origin = typeof window !== "undefined" ? window.location.origin : "",
+}) {
+  const siteRoot = siteIndexUrl(deployBasePath(), origin);
   return {
     "@context": "https://schema.org",
     "@type": "WebPage",
@@ -14,12 +20,12 @@ export function webPageJsonLd({ title, description, pageUrl, siteName = "Sameh Z
     isPartOf: {
       "@type": "WebSite",
       name: siteName,
-      url: `${base}/`,
+      url: siteRoot,
     },
   };
 }
 
-/** BreadcrumbList with hash URLs for inner routes. */
+/** BreadcrumbList — `item.href` absolute URLs matching history routes. */
 export function breadcrumbJsonLd(items) {
   return {
     "@context": "https://schema.org",
@@ -35,12 +41,17 @@ export function breadcrumbJsonLd(items) {
 
 export function innerBreadcrumbs(origin, segment, label) {
   return breadcrumbJsonLd([
-    { name: "Home", href: siteHashUrl("/", origin) },
-    { name: label, href: siteHashUrl(`/${segment}`, origin) },
+    { name: "Home", href: sitePageUrl("/", origin) },
+    { name: label, href: sitePageUrl(`/${segment}`, origin) },
   ]);
 }
 
-/** Site index URL for JSON-LD (matches canonical). */
+/** Site root URL — Home canonical / WebPage.url. */
 export function pageIndexUrl() {
   return siteIndexUrl(deployBasePath());
+}
+
+/** Full page URL for a route path (`/projects`). */
+export function pageUrlForRoute(path) {
+  return sitePageUrl(path);
 }

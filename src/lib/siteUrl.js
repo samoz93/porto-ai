@@ -4,16 +4,17 @@ export function deployBasePath() {
 }
 
 /**
- * Canonical / og:url: single index URL that returns 200 on GitHub Pages + HashRouter.
- * Optional full override for staging / mirrors.
+ * Canonical / og:url default: deployed site root (slash).
+ * Override per route via `SEOHead url` after SPA `404.html` + BrowserRouter.
  */
 export function siteIndexUrl(base, origin = typeof window !== "undefined" ? window.location.origin : "") {
   return `${origin}${base}/`;
 }
 
-/** Hash route URL for breadcrumbs and user-facing links (e.g. `/#/about`). */
-export function siteHashUrl(path, origin = typeof window !== "undefined" ? window.location.origin : "") {
+/** Full HTTPS URL for a router path (`/`, `/about`) under deploy base — history routing. */
+export function sitePageUrl(routePath = "/", origin = typeof window !== "undefined" ? window.location.origin : "") {
   const base = deployBasePath();
-  const p = path.startsWith("/") ? path : `/${path}`;
-  return `${origin}${base}/#${p}`;
+  if (!routePath || routePath === "/") return `${origin}${base}/`;
+  const p = routePath.startsWith("/") ? routePath : `/${routePath}`;
+  return `${origin}${base}${p}`;
 }

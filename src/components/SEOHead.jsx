@@ -6,7 +6,7 @@ function fullTitle(title) {
 }
 
 /**
- * Per-route meta (react-helmet). Canonical + og:url stay the site index on GHP + HashRouter.
+ * Per-route meta (react-helmet). Canonical + og:url match `url` prop (per-route SEO with GHP + `404.html` + BrowserRouter).
  * Pass `jsonLd` as one object or an array of schema.org objects (WebPage, BreadcrumbList, etc.).
  */
 export function SEOHead({

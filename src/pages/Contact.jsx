@@ -1,7 +1,7 @@
 import { Footer } from "../components/Footer";
 import { Navbar } from "../components/Navbar";
 import { SEOHead } from "../components/SEOHead";
-import { innerBreadcrumbs, pageIndexUrl, webPageJsonLd } from "../lib/seoJsonLd";
+import { innerBreadcrumbs, pageUrlForRoute, webPageJsonLd } from "../lib/seoJsonLd";
 import "../contact.css";
 
 const CONTACT_DESCRIPTION =
@@ -20,12 +20,13 @@ export function Contact() {
         title="Contact"
         description={CONTACT_DESCRIPTION}
         keywords="contact, software consultant, healthcare consultant, consultation request, get in touch, Istanbul"
+        url={pageUrlForRoute("/contact")}
         openGraph={{ locale: "en_US" }}
         jsonLd={[
           webPageJsonLd({
             title: "Contact | Sameh Zoaa",
             description: CONTACT_DESCRIPTION,
-            pageUrl: pageIndexUrl(),
+            pageUrl: pageUrlForRoute("/contact"),
           }),
           innerBreadcrumbs(window.location.origin, "contact", "Contact"),
         ]}

@@ -1,5 +1,6 @@
 import { Navbar } from "../components/Navbar";
 import { SEOHead } from "../components/SEOHead";
+import { pageUrlForRoute, webPageJsonLd } from "../lib/seoJsonLd";
 import "../projects.css";
 
 import apexImg from "../img/apex.png";
@@ -7,6 +8,9 @@ import azkarImg from "../img/azkar.png";
 import catgoImg from "../img/catgo.png";
 import guardImg from "../img/guard.png";
 import saferniImg from "../img/saferni.png";
+
+const PROJECTS_DESCRIPTION =
+  "Portfolio of software projects build by Sameh Zoaa showcasing cross-disciplinary work in health-tech, travel platforms, gaming analytics, and system architecture. Bridging medical precision with digital innovation.";
 
 const projectsList = [
   {
@@ -52,8 +56,18 @@ export function Projects() {
     <div className="page">
       <SEOHead
         title="Projects"
-        description="Portfolio of software projects build by Sameh Zoaa showcasing cross-disciplinary work in health-tech, travel platforms, gaming analytics, and system architecture. Bridging medical precision with digital innovation."
+        description={PROJECTS_DESCRIPTION}
         keywords="software projects, health-tech solutions, portfolio, system design, API development, gaming analytics, travel app, IoT mobile app"
+        url={pageUrlForRoute("/projects")}
+        openGraph={{ locale: "en_US" }}
+        jsonLd={[
+          webPageJsonLd({
+            title: "Projects | Sameh Zoaa",
+            description: PROJECTS_DESCRIPTION,
+            pageUrl: pageUrlForRoute("/projects"),
+          }),
+          npm(window.location.origin, "projects", "Projects"),
+        ]}
       />
       <Navbar />
 

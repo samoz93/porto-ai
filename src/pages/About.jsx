@@ -1,7 +1,7 @@
 import "../about.css";
 import { Navbar } from "../components/Navbar";
 import { SEOHead } from "../components/SEOHead";
-import { innerBreadcrumbs, pageIndexUrl, webPageJsonLd } from "../lib/seoJsonLd";
+import { innerBreadcrumbs, pageUrlForRoute, webPageJsonLd } from "../lib/seoJsonLd";
 import me from "../img/me.jpeg";
 
 const ABOUT_DESCRIPTION =
@@ -71,12 +71,13 @@ export function About() {
         title="About"
         description={ABOUT_DESCRIPTION}
         keywords="software consultant, general practitioner, health-tech expert, clinical software, system architect, career trajectory"
+        url={pageUrlForRoute("/about")}
         openGraph={{ locale: "en_US" }}
         jsonLd={[
           webPageJsonLd({
             title: "About | Sameh Zoaa",
             description: ABOUT_DESCRIPTION,
-            pageUrl: pageIndexUrl(),
+            pageUrl: pageUrlForRoute("/about"),
           }),
           innerBreadcrumbs(window.location.origin, "about", "About"),
         ]}
