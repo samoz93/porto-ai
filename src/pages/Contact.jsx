@@ -1,7 +1,11 @@
 import { Footer } from "../components/Footer";
 import { Navbar } from "../components/Navbar";
 import { SEOHead } from "../components/SEOHead";
+import { innerBreadcrumbs, pageIndexUrl, webPageJsonLd } from "../lib/seoJsonLd";
 import "../contact.css";
+
+const CONTACT_DESCRIPTION =
+  "Get in touch with Sameh Zoaa for software consulting or healthcare technology inquiries. Based in Istanbul, offering precision-driven solutions for digital health projects.";
 
 const contactItems = [
   { label: "Email", value: "samozayncom@gmail.com", icon: "✉" },
@@ -14,8 +18,17 @@ export function Contact() {
     <div className="contact-page">
       <SEOHead
         title="Contact"
-        description="Get in touch with Sameh Zoaa for software consulting or healthcare technology inquiries. Based in Istanbul, offering precision-driven solutions for digital health projects."
+        description={CONTACT_DESCRIPTION}
         keywords="contact, software consultant, healthcare consultant, consultation request, get in touch, Istanbul"
+        openGraph={{ locale: "en_US" }}
+        jsonLd={[
+          webPageJsonLd({
+            title: "Contact | Sameh Zoaa",
+            description: CONTACT_DESCRIPTION,
+            pageUrl: pageIndexUrl(),
+          }),
+          innerBreadcrumbs(window.location.origin, "contact", "Contact"),
+        ]}
       />
       <Navbar />
 

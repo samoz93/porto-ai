@@ -1,19 +1,14 @@
 import { Helmet } from "react-helmet";
+import { deployBasePath, siteIndexUrl } from "../lib/siteUrl";
 
-/** Deploy path from Vite `base` (e.g. `/porto-ai/` → `/porto-ai`). */
-function deployBasePath() {
-  return (import.meta.env.BASE_URL || "/").replace(/\/$/, "");
+function fullTitle(title) {
+  return title.includes("|") ? title.trim() : `${title} | Sameh Zoaa`;
 }
 
 /**
- * Single canonical + og:url: only URL that returns 200 on GitHub Pages with HashRouter
- * (paths like /about are not real files). Matches sitemap + index.html.
- * Optional `url` override for staging / mirrors.
+ * Per-route meta (react-helmet). Canonical + og:url stay the site index on GHP + HashRouter.
+ * Pass `jsonLd` as one object or an array of schema.org objects (WebPage, BreadcrumbList, etc.).
  */
-function siteIndexUrl(base) {
-  return `${window.location.origin}${base}/`;
-}
-
 export function SEOHead({
   title,
   description,
@@ -23,47 +18,63 @@ export function SEOHead({
   image,
   type = "website",
   twitterHandle = "@samoz93",
+  /** Optional: extra Open Graph keys (locale, siteName override handled below). */
+  openGraph,
+  /** Optional: robots content override (default matches index.html). */
+  robots = "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1",
+  /** One or more JSON-LD objects (serialized to script tags). */
+  jsonLd,
 }) {
   const base = deployBasePath();
   const canonicalUrl = url ?? siteIndexUrl(base);
-  const ogImage = image || `${window.location.origin}${base}/og-image.jpg`;
+  const defaultOg = image || `${window.location.origin}${base}/og-image.jpg`;
+  const primaryOgImage = openGraph?.images?.[0]?.url ?? defaultOg;
+  const pageTitle = fullTitle(title);
+
+  const ldNodes = jsonLd == null ? [] : Array.isArray(jsonLd) ? jsonLd : [jsonLd];
 
   return (
     <Helmet>
-      <title>{title} | Sameh Zoaa</title>
+      <meta
+        name="google-site-verification"
+        content="GT6kswjrj6yVW60PR1P-YVWezzvqRp5legY6v1msx44"
+      />
+      <title>{pageTitle}</title>
+      <meta name="author" content="Sameh Zoaa" />
       <meta name="description" content={description} />
-      <meta name="keywords" content={keywords} />
+      {keywords ? <meta name="keywords" content={keywords} /> : null}
+      <meta name="robots" content={robots} />
 
-      {/* Open Graph Tags */}
-      <meta property="og:type" content={type} />
-      <meta property="og:title" content={title} />
-      <meta property="og:description" content={description} />
+      {/* Open Graph */}
+      <meta property="og:type" content={openGraph?.type ?? type} />
+      <meta property="og:title" content={openGraph?.title ?? pageTitle} />
+      <meta property="og:description" content={openGraph?.description ?? description} />
       <meta property="og:url" content={canonicalUrl} />
-      <meta property="og:image" content={ogImage} />
+      <meta property="og:image" content={primaryOgImage} />
       <meta property="og:image:width" content="1200" />
       <meta property="og:image:height" content="630" />
       <meta
         property="og:image:alt"
-        content="Sameh Zoaa — Physician and Software Engineer"
+        content={openGraph?.images?.[0]?.alt ?? "Sameh Zoaa — Physician and Software Engineer"}
       />
-      <meta property="og:site_name" content="Sameh Zoaa Portfolio" />
+      <meta property="og:site_name" content={openGraph?.siteName ?? "Sameh Zoaa Portfolio"} />
+      {openGraph?.locale ? <meta property="og:locale" content={openGraph.locale} /> : null}
 
-      {/* Twitter Card Tags */}
+      {/* Twitter */}
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:creator" content={twitterHandle} />
-      <meta name="twitter:title" content={title} />
+      <meta name="twitter:title" content={pageTitle} />
       <meta name="twitter:description" content={description} />
-      <meta name="twitter:image" content={ogImage} />
-      <meta
-        name="twitter:image:alt"
-        content="Sameh Zoaa — Physician and Software Engineer"
-      />
+      <meta name="twitter:image" content={primaryOgImage} />
+      <meta name="twitter:image:alt" content="Sameh Zoaa — Physician and Software Engineer" />
 
-      {/* Canonical URL */}
       <link rel="canonical" href={canonicalUrl} />
 
-      {/* Mobile optimization */}
-      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      {ldNodes.map((node, i) => (
+        <script key={i} type="application/ld+json">
+          {JSON.stringify(node)}
+        </script>
+      ))}
     </Helmet>
   );
 }

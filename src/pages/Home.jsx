@@ -1,7 +1,11 @@
 import { Footer } from "../components/Footer";
 import { Navbar } from "../components/Navbar";
 import { SEOHead } from "../components/SEOHead";
+import { pageIndexUrl, webPageJsonLd } from "../lib/seoJsonLd";
 import me from "../img/me.jpeg";
+
+const HOME_DESCRIPTION =
+  "Sameh Zoaa - Full-stack software engineer combining clinical precision with cutting-edge technology. Specializing in health-tech, system design, and digital transformation.";
 const features = [
   {
     title: "Clinical Logic",
@@ -22,8 +26,16 @@ export function Home() {
     <div className="page">
       <SEOHead
         title="Home"
-        description="Sameh Zoaa - Full-stack software engineer combining clinical precision with cutting-edge technology. Specializing in health-tech, system design, and digital transformation."
+        description={HOME_DESCRIPTION}
         keywords="full-stack developer, health-tech, clinical software, software engineer, system design, digital health"
+        openGraph={{ locale: "en_US" }}
+        jsonLd={[
+          webPageJsonLd({
+            title: "Home | Sameh Zoaa",
+            description: HOME_DESCRIPTION,
+            pageUrl: pageIndexUrl(),
+          }),
+        ]}
       />
       <Navbar />
 

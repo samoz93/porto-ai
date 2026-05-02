@@ -13,5 +13,8 @@ Reference: [URL Inspection tool](https://support.google.com/webmasters/answer/90
 ## Optional later (not done in this pass)
 
 - **Profile page / Person JSON-LD** — Validate with [Rich Results Test](https://search.google.com/test/rich-results); fix warnings so “Enhancements” in URL Inspection stays clean.
-- **BreadcrumbList** schema — If nav stays stable; test in Rich Results Test.
 - **SPA fallback** — Duplicate `index.html` to `404.html` in deploy + `BrowserRouter` → then restore multi-URL sitemap and per-route canonicals.
+
+## Update (2026-05-02)
+
+- **BreadcrumbList** — Implemented on **About** and **Contact** (hash URLs in `item`), plus **WebPage** JSON-LD on Home / About / Contact. See `history/vite-helmet-seo.md`.

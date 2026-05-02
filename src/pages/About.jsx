@@ -1,7 +1,11 @@
 import "../about.css";
 import { Navbar } from "../components/Navbar";
 import { SEOHead } from "../components/SEOHead";
+import { innerBreadcrumbs, pageIndexUrl, webPageJsonLd } from "../lib/seoJsonLd";
 import me from "../img/me.jpeg";
+
+const ABOUT_DESCRIPTION =
+  "Learn about Sameh Zoaa's journey as a full-stack engineer, general practitioner, and healthcare technology consultant. Combining medical expertise with software innovation.";
 
 const timeline = [
   {
@@ -65,8 +69,17 @@ export function About() {
     <div className="about-page">
       <SEOHead
         title="About"
-        description="Learn about Sameh Zoaa's journey as a full-stack engineer, general practitioner, and healthcare technology consultant. Combining medical expertise with software innovation."
+        description={ABOUT_DESCRIPTION}
         keywords="software consultant, general practitioner, health-tech expert, clinical software, system architect, career trajectory"
+        openGraph={{ locale: "en_US" }}
+        jsonLd={[
+          webPageJsonLd({
+            title: "About | Sameh Zoaa",
+            description: ABOUT_DESCRIPTION,
+            pageUrl: pageIndexUrl(),
+          }),
+          innerBreadcrumbs(window.location.origin, "about", "About"),
+        ]}
       />
       <Navbar />
 
