@@ -16,13 +16,13 @@ export function Contact() {
         title="Contact"
         description="Get in touch with Sameh Zoaa for software consulting or healthcare technology inquiries. Based in Istanbul, offering precision-driven solutions for digital health projects."
         keywords="contact, software consultant, healthcare consultant, consultation request, get in touch, Istanbul"
-        url="https://samoz93.github.io/porto-ai/contact"
       />
       <Navbar />
 
       <main className="contact-section contact-layout">
         <section>
           <p className="contact-eyebrow">Inquiry & Consultation</p>
+          <p className="page-name-line">Sameh Zoaa</p>
           <h1 className="contact-title">
             Let&apos;s bridge the
             <br />

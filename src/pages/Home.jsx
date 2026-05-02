@@ -24,7 +24,6 @@ export function Home() {
         title="Home"
         description="Sameh Zoaa - Full-stack software engineer combining clinical precision with cutting-edge technology. Specializing in health-tech, system design, and digital transformation."
         keywords="full-stack developer, health-tech, clinical software, software engineer, system design, digital health"
-        url="https://samoz93.github.io/porto-ai/"
       />
       <Navbar />
 

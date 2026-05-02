@@ -52,19 +52,21 @@ export function Projects() {
     <div className="page">
       <SEOHead
         title="Projects"
-        description="Portfolio of software projects showcasing cross-disciplinary work in health-tech, travel platforms, gaming analytics, and system architecture. Bridging medical precision with digital innovation."
+        description="Portfolio of software projects build by Sameh Zoaa showcasing cross-disciplinary work in health-tech, travel platforms, gaming analytics, and system architecture. Bridging medical precision with digital innovation."
         keywords="software projects, health-tech solutions, portfolio, system design, API development, gaming analytics, travel app, IoT mobile app"
-        url="https://samoz93.github.io/porto-ai/projects"
       />
       <Navbar />
 
       <main>
         <section className="hero projects-hero section">
-          <h1>
-            Portfolio of
-            <br />
-            <em>Intentional Systems.</em>
-          </h1>
+          <div>
+            <p className="page-name-line">Sameh Zoaa</p>
+            <h1>
+              Portfolio of
+              <br />
+              <em>Intentional Systems.</em>
+            </h1>
+          </div>
           <p className="lead">
             A curated selection of cross-disciplinary works bridging medical
             precision with software architectural logic. Exploring the

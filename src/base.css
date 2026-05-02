@@ -76,6 +76,16 @@ img {
   margin-bottom: 20px;
 }
 
+/* Visible brand on inner pages — pairs with page eyebrow, before H1 */
+.page-name-line {
+  font-family: var(--font-serif);
+  font-size: 15px;
+  font-style: italic;
+  letter-spacing: 0.04em;
+  color: var(--color-text);
+  margin: 0 0 14px;
+}
+
 .brand {
   font-family: var(--font-serif);
   font-size: 26px;

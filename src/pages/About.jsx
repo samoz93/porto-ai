@@ -67,13 +67,13 @@ export function About() {
         title="About"
         description="Learn about Sameh Zoaa's journey as a full-stack engineer, general practitioner, and healthcare technology consultant. Combining medical expertise with software innovation."
         keywords="software consultant, general practitioner, health-tech expert, clinical software, system architect, career trajectory"
-        url="https://samoz93.github.io/porto-ai/about"
       />
       <Navbar />
 
       <main>
         <section className="about-section about-hero">
           <p className="about-eyebrow">Precision Curator</p>
+          <p className="page-name-line">Sameh Zoaa</p>
           <h1>
             Bridging the gap between
             <br />
