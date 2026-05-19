@@ -1,0 +1,1568 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      Türkiye Uzaktan Hasta Takibi (RPM) İnteraktif Analiz ve Simülasyon Portalı
+    </title>
+    <!-- Doğru CDN Kaynakları -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"
+      defer
+    ></script>
+
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap");
+      body {
+        font-family: "Inter", sans-serif;
+        scrollbar-width: thin;
+        scrollbar-color: #1e293b #0f172a;
+      }
+      .active-tab {
+        background-color: #0f766e;
+        color: white;
+        border-left: 4px solid #2dd4bf;
+      }
+      input[type="range"] {
+        -webkit-appearance: none;
+        appearance: none;
+        background: #1e293b;
+        height: 6px;
+        border-radius: 9999px;
+      }
+      input[type="range"]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        background: #2dd4bf;
+        cursor: pointer;
+        box-shadow: 0 0 10px rgba(45, 212, 191, 0.5);
+        transition: transform 0.1s ease;
+      }
+      input[type="range"]::-webkit-slider-thumb:hover {
+        transform: scale(1.2);
+      }
+      .glow-border {
+        box-shadow: 0 0 15px rgba(13, 148, 136, 0.1);
+      }
+    </style>
+  </head>
+  <body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col">
+    <header
+      class="bg-slate-900 border-b border-slate-800 p-5 sticky top-0 z-50 shadow-lg backdrop-blur-md bg-opacity-95"
+    >
+      <div
+        class="max-w-7xl mx-auto flex flex-col lg:flex-row justify-between items-center gap-4"
+      >
+        <div class="flex items-center gap-3.5">
+          <div
+            class="bg-teal-950/80 border border-teal-700/50 p-3 rounded-xl shadow-inner glow-border"
+          >
+            <i
+              class="fa-solid fa-heart-pulse text-3xl text-teal-400 animate-pulse"
+            ></i>
+          </div>
+          <div>
+            <h1
+              class="text-xl lg:text-2xl font-black tracking-tight text-white flex flex-wrap items-center gap-2"
+            >
+              TÜRKİYE RPM STRATEJİK ANALİZ VE PLANLAMA PORTALI
+              <span
+                class="text-xs bg-teal-900/80 text-teal-300 px-3 py-1 rounded-full border border-teal-700/50 font-bold tracking-wide"
+                >Milli Vizyon v2.5</span
+              >
+            </h1>
+            <p class="text-xs text-slate-400 mt-1">
+              Yatağa Bağımlı, Kronik ve Palyatif Hasta Yönetimi için Akıllı
+              Karar Destek Sistemi
+            </p>
+          </div>
+        </div>
+        <div class="flex items-center gap-3 text-sm">
+          <span class="text-slate-400 hidden sm:inline"
+            >Ulusal SUT Kodu Teşvik Revizyonu:</span
+          >
+          <span
+            class="bg-teal-950/90 text-teal-300 px-4 py-2 rounded-lg border border-teal-800/80 font-bold flex items-center gap-2 shadow-sm"
+          >
+            <i class="fa-solid fa-scale-balanced text-teal-400"></i> SUT Rev:
+            +%40 - +%55 Artış [1]
+          </span>
+        </div>
+      </div>
+    </header>
+
+    <main
+      class="flex-grow max-w-7xl mx-auto w-full p-4 lg:p-6 flex flex-col lg:flex-row gap-6"
+    >
+      <aside
+        class="lg:w-72 flex flex-row lg:flex-col gap-2 overflow-x-auto lg:overflow-visible shrink-0 pb-3 lg:pb-0 border-b lg:border-b-0 lg:border-r border-slate-800/80 lg:pr-4"
+      >
+        <button
+          onclick="switchTab('tab-durum')"
+          id="btn-tab-durum"
+          class="active-tab w-full flex items-center gap-3.5 px-4 py-3.5 rounded-xl text-left text-xs lg:text-sm font-bold transition duration-200 hover:bg-slate-800/60 whitespace-nowrap"
+        >
+          <i class="fa-solid fa-chart-line w-5 text-center text-teal-400"></i>
+          Epidemiyolojik Durum
+        </button>
+        <button
+          onclick="switchTab('tab-maliyet')"
+          id="btn-tab-maliyet"
+          class="w-full flex items-center gap-3.5 px-4 py-3.5 rounded-xl text-left text-xs lg:text-sm font-bold text-slate-400 transition duration-200 hover:bg-slate-800/60 whitespace-nowrap"
+        >
+          <i class="fa-solid fa-wallet w-5 text-center text-teal-400"></i> SUT &
+          Ekonomik Yük
+        </button>
+        <button
+          onclick="switchTab('tab-ekosistem')"
+          id="btn-tab-ekosistem"
+          class="w-full flex items-center gap-3.5 px-4 py-3.5 rounded-xl text-left text-xs lg:text-sm font-bold text-slate-400 transition duration-200 hover:bg-slate-800/60 whitespace-nowrap"
+        >
+          <i
+            class="fa-solid fa-network-wired w-5 text-center text-teal-400"
+          ></i>
+          Yerli Teknolojiler
+        </button>
+        <button
+          onclick="switchTab('tab-simulator')"
+          id="btn-tab-simulator"
+          class="w-full flex items-center gap-3.5 px-4 py-3.5 rounded-xl text-left text-xs lg:text-sm font-bold text-slate-400 transition duration-200 hover:bg-slate-800/60 whitespace-nowrap"
+        >
+          <i
+            class="fa-solid fa-square-poll-vertical w-5 text-center text-teal-400"
+          ></i>
+          6000 Hasta Simülatörü
+        </button>
+        <button
+          onclick="switchTab('tab-plan')"
+          id="btn-tab-plan"
+          class="w-full flex items-center gap-3.5 px-4 py-3.5 rounded-xl text-left text-xs lg:text-sm font-bold text-slate-400 transition duration-200 hover:bg-slate-800/60 whitespace-nowrap"
+        >
+          <i class="fa-solid fa-list-check w-5 text-center text-teal-400"></i>
+          Entegrasyon & Plan
+        </button>
+      </aside>
+
+      <section
+        class="flex-grow bg-slate-900/55 border border-slate-800/80 rounded-2xl p-5 lg:p-7 shadow-2xl relative overflow-hidden backdrop-blur-md"
+      >
+        <div id="tab-durum" class="tab-content space-y-6">
+          <div class="border-b border-slate-800 pb-4">
+            <h2
+              class="text-xl font-extrabold text-white flex items-center gap-2.5"
+            >
+              <i class="fa-solid fa-hospital-user text-teal-400"></i>
+              Epidemiyolojik Göstergeler ve Hizmet Ağları
+            </h2>
+            <p class="text-xs text-slate-400 mt-1">
+              Türkiye genelinde evde sağlık, palyatif yatak kapasitesi ve yoğun
+              bakım doluluk verileri.
+            </p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div
+              class="bg-slate-900 border border-slate-800/80 rounded-xl p-5 relative overflow-hidden shadow-inner"
+            >
+              <div class="absolute right-3 top-3 opacity-5">
+                <i class="fa-solid fa-users text-5xl text-teal-400"></i>
+              </div>
+              <span
+                class="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider"
+                >Toplam Evde Sağlık (Tarihsel)</span
+              >
+              <div class="text-3xl font-black text-white mt-1.5">
+                2.780.050
+                <span class="text-xs font-medium text-slate-500">Hasta</span>
+              </div>
+              <p class="text-xs text-slate-400 mt-2.5 leading-relaxed">
+                Şubat 2010 - Aralık 2024 tarihleri arasında ulaşılan toplam
+                tekil hasta.[2]
+              </p>
+            </div>
+            <div
+              class="bg-slate-900 border border-slate-800/80 rounded-xl p-5 relative overflow-hidden shadow-inner"
+            >
+              <div class="absolute right-3 top-3 opacity-5">
+                <i class="fa-solid fa-user-check text-5xl text-teal-400"></i>
+              </div>
+              <span
+                class="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider"
+                >Aktif Kayıtlı / Takipteki Hasta</span
+              >
+              <div class="text-3xl font-black text-teal-400 mt-1.5">
+                803.963
+                <span class="text-xs font-medium text-teal-600">Hasta</span>
+              </div>
+              <p class="text-xs text-slate-400 mt-2.5 leading-relaxed">
+                2024 yılı sonu sisteme kayıtlı aktif hasta havuzu. Aylık takip
+                ortalaması: 138.884.[2]
+              </p>
+            </div>
+            <div
+              class="bg-slate-900 border border-slate-800/80 rounded-xl p-5 relative overflow-hidden shadow-inner"
+            >
+              <div class="absolute right-3 top-3 opacity-5">
+                <i class="fa-solid fa-bed text-5xl text-teal-400"></i>
+              </div>
+              <span
+                class="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider"
+                >Yatağa Tam Bağımlı Tahmini</span
+              >
+              <div class="text-3xl font-black text-white mt-1.5">
+                70K - 140K
+                <span class="text-xs font-medium text-slate-500">Hasta</span>
+              </div>
+              <p class="text-xs text-slate-400 mt-2.5 leading-relaxed">
+                Türkiye'de yaşamını tamamen yatakta sürdüren ağır kronik hasta
+                tahmini.[3]
+              </p>
+            </div>
+          </div>
+
+          <div
+            class="bg-slate-900/80 border border-slate-800 rounded-xl p-5 space-y-4"
+          >
+            <h3
+              class="text-xs font-extrabold text-white uppercase tracking-wider flex items-center gap-2 border-b border-slate-800 pb-2.5 text-teal-400"
+            >
+              <i class="fa-solid fa-circle-exclamation text-yellow-500"></i>
+              Hastane Yatak Kullanım Paradoksu
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div class="space-y-4">
+                <h4 class="text-xs font-bold text-slate-300 uppercase">
+                  Yoğun Bakımlardaki "Uygunsuz Yatış" Krizleri
+                </h4>
+                <div class="space-y-3">
+                  <div>
+                    <div
+                      class="flex justify-between text-xs font-semibold mb-1.5"
+                    >
+                      <span
+                        >Erişkin II. Basamak Yoğun Bakım Uygunsuz Yatışı
+                        [4]</span
+                      >
+                      <span class="text-teal-400 font-bold">%33.0</span>
+                    </div>
+                    <div class="w-full bg-slate-800 rounded-full h-2">
+                      <div
+                        class="bg-teal-500 h-2 rounded-full"
+                        style="width: 33%"
+                      ></div>
+                    </div>
+                  </div>
+                  <div>
+                    <div
+                      class="flex justify-between text-xs font-semibold mb-1.5"
+                    >
+                      <span
+                        >Erişkin III. Basamak Yoğun Bakım Uygunsuz Yatışı
+                        [4]</span
+                      >
+                      <span class="text-yellow-500 font-bold">%34.0</span>
+                    </div>
+                    <div class="w-full bg-slate-800 rounded-full h-2">
+                      <div
+                        class="bg-yellow-500 h-2 rounded-full"
+                        style="width: 34%"
+                      ></div>
+                    </div>
+                  </div>
+                  <p class="text-xs text-slate-400 leading-relaxed">
+                    Yoğun bakım ünitelerinde anlık denetlenen hastaların
+                    <span class="text-white font-semibold"
+                      >%19.0'unun tamamen gereksiz (endikasyonsuz)</span
+                    >
+                    yatış olduğu saptanmıştır.[4] RPM tabanlı izlem ile bu
+                    hastaların tamamı evde güvenle takip edilebilir.
+                  </p>
+                </div>
+              </div>
+
+              <div class="space-y-4">
+                <h4 class="text-xs font-bold text-slate-300 uppercase">
+                  Palyatif Bakım Yatak Atıllığı
+                </h4>
+                <div
+                  class="bg-slate-800/40 rounded-xl p-4 border border-slate-800 space-y-3"
+                >
+                  <div class="flex justify-between items-center text-xs">
+                    <span class="text-slate-400"
+                      >Toplam Palyatif Merkez / Yatak</span
+                    >
+                    <span class="font-bold text-white"
+                      >437 Merkez / 6.397 Yatak</span
+                    >
+                  </div>
+                  <div class="flex justify-between items-center text-xs">
+                    <span class="text-slate-400"
+                      >Palyatif Yatak Doluluk Oranı (Örnek İl) [5]</span
+                    >
+                    <span class="font-bold text-teal-400">%18.0</span>
+                  </div>
+                  <p class="text-xs text-slate-400 leading-relaxed">
+                    Yoğun bakımlar
+                    <span class="text-white font-semibold">%60 - %71</span>
+                    doluluk [6, 7] ve gereksiz hasta yüküyle ezilirken, palyatif
+                    bakım yatakları koordinasyon eksikliği nedeniyle bazı
+                    illerde
+                    <span class="text-teal-400 font-semibold"
+                      >%18.0 - %20.0</span
+                    >
+                    gibi son derece düşük dolulukla çalışmaktadır.[5, 8]
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-slate-900 border border-slate-800 rounded-xl p-5">
+            <h3
+              class="text-xs font-extrabold text-white uppercase tracking-wider mb-3"
+            >
+              Mevcut Bakım Dağılım Modeli
+            </h3>
+            <div class="flex flex-col gap-3">
+              <div
+                class="flex items-center justify-between text-xs font-semibold"
+              >
+                <span class="flex items-center gap-2"
+                  ><span
+                    class="w-3 h-3 rounded-full bg-teal-600 inline-block"
+                  ></span>
+                  Evde Takip Edilen Aktif Hasta Grubu [2]</span
+                >
+                <span>803.963 (%98.2)</span>
+              </div>
+              <div
+                class="flex items-center justify-between text-xs font-semibold"
+              >
+                <span class="flex items-center gap-2"
+                  ><span
+                    class="w-3 h-3 rounded-full bg-slate-600 inline-block"
+                  ></span>
+                  Hastanede Yatan Palyatif/Yoğun Bakım Grubu</span
+                >
+                <span>14.990 (%1.8)</span>
+              </div>
+              <div
+                class="w-full bg-slate-800 rounded-full h-4 flex overflow-hidden"
+              >
+                <div class="bg-teal-600 h-full" style="width: 98.2%"></div>
+                <div class="bg-slate-600 h-full" style="width: 1.8%"></div>
+              </div>
+              <p class="text-xs text-slate-400 italic mt-1 leading-relaxed">
+                * Not: Kronik hasta popülasyonunun ezici bir çoğunluğu (%98'in
+                üzerinde) evlerinde yaşamaktadır. Ancak bu hastalar "kesintisiz
+                takip" yerine sadece "periyodik ziyaretlerle" izlendiğinden, ani
+                klinik kötüleşmelerde doğrudan acil servis ve yoğun bakımlara
+                yönelmektedirler.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div id="tab-maliyet" class="tab-content space-y-6 hidden">
+          <div class="border-b border-slate-800 pb-4">
+            <h2
+              class="text-xl font-extrabold text-white flex items-center gap-2.5"
+            >
+              <i class="fa-solid fa-coins text-teal-400"></i> SGK Bütçe Yükü ve
+              SUT Finansal Haritası
+            </h2>
+            <p class="text-xs text-slate-400 mt-1">
+              Kamu sağlık finansmanı (Sağlık Uygulama Tebliği) bazında
+              geleneksel yataklı maliyetler ile uzaktan izlem verimliliği.
+            </p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div
+              class="bg-slate-900 border border-slate-800 rounded-xl p-5 relative overflow-hidden"
+            >
+              <span
+                class="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider"
+                >SGK Palyatif Bakım Ödemesi (2024) [9]</span
+              >
+              <div class="text-3xl font-black text-white mt-1.5">
+                6.8 Milyar
+                <span class="text-xs font-normal text-slate-500">TRY</span>
+              </div>
+              <p class="text-xs text-slate-400 mt-2.5">
+                Toplam 76.344 hasta için hastane palyatif merkezlerine ödenen
+                tutar.[9] Hasta başına ortalama yük:
+                <span class="text-teal-400 font-bold">89.000 TRY</span>.
+              </p>
+            </div>
+            <div
+              class="bg-slate-900 border border-slate-800 rounded-xl p-5 relative overflow-hidden"
+            >
+              <span
+                class="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider"
+                >SGK Palyatif Bakım Ödemesi (H1 2025) [9]</span
+              >
+              <div class="text-3xl font-black text-teal-400 mt-1.5">
+                4.8 Milyar
+                <span class="text-xs font-normal text-slate-500">TRY</span>
+              </div>
+              <p class="text-xs text-slate-400 mt-2.5">
+                2025 yılının sadece ilk yarısında 44.218 palyatif hastası için
+                fatura edilen devasa tutar.[9] Giderler katlanarak artmaktadır.
+              </p>
+            </div>
+          </div>
+
+          <div
+            class="bg-slate-900 border border-slate-800 rounded-xl p-5 space-y-4"
+          >
+            <h3
+              class="text-xs font-extrabold text-white uppercase tracking-wider flex items-center gap-2 border-b border-slate-800 pb-2.5 text-teal-400"
+            >
+              <i class="fa-solid fa-file-invoice-dollar text-teal-500"></i>
+              Güncel Resmi SUT Günlük Paket Ücretleri (Teşvikli Son Revizyon)
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div
+                class="bg-slate-800/40 p-4 rounded-xl border border-slate-800 flex justify-between items-center"
+              >
+                <div>
+                  <span class="text-xs text-slate-400 block font-mono"
+                    >SUT Kod: P560000</span
+                  >
+                  <span class="text-sm font-bold text-white block mt-1"
+                    >Palyatif Bakım Günlük Tedavisi</span
+                  >
+                </div>
+                <div class="text-right">
+                  <span class="text-xs text-slate-500 line-through block"
+                    >329,99 TRY</span
+                  >
+                  <span class="text-lg font-black text-teal-400"
+                    >379.49 TRY</span
+                  >
+                </div>
+              </div>
+              <div
+                class="bg-slate-800/40 p-4 rounded-xl border border-slate-800 flex justify-between items-center"
+              >
+                <div>
+                  <span class="text-xs text-slate-400 block font-mono"
+                    >SUT Kod: P552003</span
+                  >
+                  <span class="text-sm font-bold text-white block mt-1"
+                    >III. Basamak Yoğun Bakım Günlük</span
+                  >
+                </div>
+                <div class="text-right">
+                  <span class="text-xs text-slate-500 line-through block"
+                    >880,60 TRY</span
+                  >
+                  <span class="text-lg font-black text-yellow-500"
+                    >1.012.69 TRY</span
+                  >
+                </div>
+              </div>
+            </div>
+            <p class="text-xs text-slate-400 italic leading-relaxed">
+              * Önemli Not: Yukarıdaki rakamlar SGK'nın hastaneye ödediği "temel
+              refakat ve yatak paketi" ücretidir. Laboratuvar tetkikleri, sarf
+              malzemeleri, cerrahi işlemler ve komplikasyonlar eklendiğinde
+              yoğun bakımdaki bir hastanın fiili günlük maliyeti
+              <span class="text-white font-semibold">12.000 TRY</span>'yi
+              bulmaktadır.
+            </p>
+          </div>
+
+          <div class="bg-slate-900 border border-slate-800 rounded-xl p-5">
+            <h3
+              class="text-xs font-extrabold text-teal-400 uppercase tracking-wider mb-3"
+            >
+              <i class="fa-solid fa-globe"></i> Küresel Emsal: Birleşik Krallık
+              NHS "Virtual Ward" (Sanal Servis) Raporu
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div
+                class="bg-slate-800/40 p-3 rounded-lg text-center border border-slate-800"
+              >
+                <span class="text-xs text-slate-400 block"
+                  >Geleneksel Yatak Günlük</span
+                >
+                <span class="text-xl font-black text-white mt-1 block"
+                  >£536</span
+                >
+                <span class="text-[10px] text-slate-500 block mt-1"
+                  >Genel akut servis günlüğü [10]</span
+                >
+              </div>
+              <div
+                class="bg-slate-800/40 p-3 rounded-lg text-center border border-slate-800"
+              >
+                <span class="text-xs text-slate-400 block"
+                  >Sanal Servis (RPM) Günlük</span
+                >
+                <span class="text-xl font-black text-teal-400 mt-1 block"
+                  >£326</span
+                >
+                <span class="text-[10px] text-slate-500 block mt-1"
+                  >Gerekli direkt izlem maliyeti [11]</span
+                >
+              </div>
+              <div
+                class="bg-slate-800/40 p-3 rounded-lg text-center border border-slate-800"
+              >
+                <span class="text-xs text-slate-400 block"
+                  >Hasta Patika Başı Tasarruf</span
+                >
+                <span class="text-xl font-black text-green-400 mt-1 block"
+                  >£1.958</span
+                >
+                <span class="text-[10px] text-slate-500 block mt-1"
+                  >Engellenen komplikasyon / acil dahil [12]</span
+                >
+              </div>
+            </div>
+            <p class="text-xs text-slate-400 mt-3 leading-relaxed">
+              NHS verilerine göre, evde takipli "sanal servis" yatak maliyetleri
+              fiziksel yatak maliyetine göre
+              <span class="text-white font-semibold">%39.2 daha azdır</span
+              >.[10, 11] En büyük tasarruf ise gereksiz yatışların ve hastane
+              enfeksiyonlarının (nosokomiyal) tamamen ortadan kalkmasından
+              kaynaklanmaktadır.
+            </p>
+          </div>
+        </div>
+
+        <div id="tab-ekosistem" class="tab-content space-y-6 hidden">
+          <div class="border-b border-slate-800 pb-4">
+            <h2
+              class="text-xl font-extrabold text-white flex items-center gap-2.5"
+            >
+              <i class="fa-solid fa-laptop-medical text-teal-400"></i> Yerli
+              Sağlık Teknolojisi Girişimleri
+            </h2>
+            <p class="text-xs text-slate-400 mt-1">
+              Türkiye'de uzaktan hasta takibi, teletıp ve yapay zeka alanında
+              faaliyet gösteren tescilli ve yenilikçi aktörler.
+            </p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div
+              class="bg-slate-900 border border-slate-800 rounded-xl p-5 flex flex-col justify-between"
+            >
+              <div>
+                <div class="flex justify-between items-start">
+                  <h3 class="text-base font-extrabold text-teal-300">
+                    Albert Health
+                  </h3>
+                  <span
+                    class="bg-teal-950 text-teal-400 text-[10px] font-bold px-2.5 py-1 rounded-full uppercase border border-teal-800"
+                    >Yapay Zeka & Ses</span
+                  >
+                </div>
+                <p class="text-xs text-slate-400 mt-3 leading-relaxed">
+                  Ses tabanlı yapay zeka asistanı ve kronik hastalık yönetim
+                  platformu.[13]
+                  <span class="text-white font-semibold"
+                    >$3M Seri A yatırımı</span
+                  >
+                  (Techstars, Sabancı Ventures, TT Ventures vb. destekli) [14]
+                  bulunan girişim, ses analizi üzerinden "Vokal Biyobelirteçler"
+                  geliştirerek kalp yetmezliğinde ödem birikimini önceden tespit
+                  ediyor.[15]
+                </p>
+              </div>
+              <div
+                class="border-t border-slate-800/80 mt-4 pt-3 flex justify-between items-center text-xs"
+              >
+                <span class="text-slate-500">Entegrasyonlar:</span>
+                <span class="text-slate-300 font-semibold"
+                  ><i class="fa-solid fa-circle-check text-green-500"></i>
+                  e-Nabız / USBS [15]</span
+                >
+              </div>
+            </div>
+
+            <div
+              class="bg-slate-900 border border-slate-800 rounded-xl p-5 flex flex-col justify-between"
+            >
+              <div>
+                <div class="flex justify-between items-start">
+                  <h3 class="text-base font-extrabold text-yellow-500">
+                    Doctronic
+                  </h3>
+                  <span
+                    class="bg-yellow-950 text-yellow-400 text-[10px] font-bold px-2.5 py-1 rounded-full uppercase border border-yellow-900"
+                    >Sanal Hekim</span
+                  >
+                </div>
+                <p class="text-xs text-slate-400 mt-3 leading-relaxed">
+                  Yapay zeka destekli sanal hekim ve teletıp platformu.
+                  <span class="text-white font-semibold"
+                    >$40M global yatırım</span
+                  >
+                  (Lightspeed Venture Partners) [16] alarak 26.3 milyondan fazla
+                  klinik sanal konsültasyon tamamlamıştır.[17] Reçete yenileme
+                  ve 30/60/90 günlük ilaç onay takip yeteneği ile idari iş
+                  yükünü minimize eder.[18]
+                </p>
+              </div>
+              <div
+                class="border-t border-slate-800/80 mt-4 pt-3 flex justify-between items-center text-xs"
+              >
+                <span class="text-slate-500">Kapasite:</span>
+                <span class="text-slate-300 font-semibold"
+                  ><i class="fa-solid fa-bolt text-teal-400"></i> 26.3M+
+                  Konsültasyon [17]</span
+                >
+              </div>
+            </div>
+
+            <div
+              class="bg-slate-900 border border-slate-800 rounded-xl p-5 flex flex-col justify-between"
+            >
+              <div>
+                <div class="flex justify-between items-start">
+                  <h3 class="text-base font-extrabold text-white">
+                    Ceiba Healthcare
+                  </h3>
+                  <span
+                    class="bg-slate-800 text-slate-300 text-[10px] font-bold px-2.5 py-1 rounded-full uppercase border border-slate-700"
+                    >Kritik Telemetri</span
+                  >
+                </div>
+                <p class="text-xs text-slate-400 mt-3 leading-relaxed">
+                  Türkiye menşeili girişim, yatak başı monitörleri ve tıbbi
+                  cihazlardan gelen kesintisiz biyolojik verileri tek noktada
+                  toplayarak yapay zeka destekli "klinik alarm/erken uyarı
+                  skorları" üretir.[19] Donanımdan bağımsız çalışması, evdeki
+                  yatakları adeta yoğun bakım telemetry ünitesine çevirir.
+                </p>
+              </div>
+              <div
+                class="border-t border-slate-800/80 mt-4 pt-3 flex justify-between items-center text-xs"
+              >
+                <span class="text-slate-500">Özellik:</span>
+                <span class="text-slate-300 font-semibold"
+                  ><i class="fa-solid fa-server text-teal-400"></i> Agnostik
+                  Veri Akışı [19]</span
+                >
+              </div>
+            </div>
+
+            <div
+              class="bg-slate-900 border border-slate-800 rounded-xl p-5 flex flex-col justify-between"
+            >
+              <div>
+                <div class="flex justify-between items-start">
+                  <h3 class="text-base font-extrabold text-teal-300">
+                    Inofab Health
+                  </h3>
+                  <span
+                    class="bg-teal-950 text-teal-400 text-[10px] font-bold px-2.5 py-1 rounded-full uppercase border border-teal-800"
+                    >KOAH & Solunum</span
+                  >
+                </div>
+                <p class="text-xs text-slate-400 mt-3 leading-relaxed">
+                  Solunum yolları ve KOAH hastaları için
+                  <span class="text-white font-semibold">Spirohome</span>
+                  kişisel dijital spirometre cihazlarını ve SpiroCloud
+                  platformunu geliştiren Türk girişimi ($1M finansman alan).[20]
+                  Hastaların akciğer fonksiyon parametrelerini evlerinden
+                  klinisyene kesintisiz aktarır.
+                </p>
+              </div>
+              <div
+                class="border-t border-slate-800/80 mt-4 pt-3 flex justify-between items-center text-xs"
+              >
+                <span class="text-slate-500">Saha:</span>
+                <span class="text-slate-300 font-semibold"
+                  ><i class="fa-solid fa-wind text-teal-400"></i> Akciğer
+                  Kapasite Takibi [20]</span
+                >
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-slate-900 border border-slate-800 rounded-xl p-4">
+            <h3
+              class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2.5"
+            >
+              Sağlık Bakanlığı USBS/HBYS Tescilli Diğer Aktörler
+            </h3>
+            <div class="flex flex-wrap gap-2">
+              <span
+                class="bg-slate-800 text-xs px-3 py-1.5 rounded border border-slate-700 text-slate-300"
+                >VivaSmartCare (Geriatrik RPM) [21]</span
+              >
+              <span
+                class="bg-slate-800 text-xs px-3 py-1.5 rounded border border-slate-700 text-slate-300"
+                >One Dose Health / Güven Online [22]</span
+              >
+              <span
+                class="bg-slate-800 text-xs px-3 py-1.5 rounded border border-slate-700 text-slate-300"
+                >Dakik (İlaç & Bluetooth Vital) [23]</span
+              >
+              <span
+                class="bg-slate-800 text-xs px-3 py-1.5 rounded border border-slate-700 text-slate-300"
+                >Turkcell Sağlık</span
+              >
+              <span
+                class="bg-slate-800 text-xs px-3 py-1.5 rounded border border-slate-700 text-slate-300"
+                >Akgün Yazılım</span
+              >
+              <span
+                class="bg-slate-800 text-xs px-3 py-1.5 rounded border border-slate-700 text-slate-300"
+                >Fonet Bilgi</span
+              >
+            </div>
+          </div>
+        </div>
+
+        <div id="tab-simulator" class="tab-content space-y-6 hidden">
+          <div class="border-b border-slate-800 pb-4">
+            <h2
+              class="text-xl font-extrabold text-white flex items-center gap-2.5"
+            >
+              <i class="fa-solid fa-gears text-teal-400"></i> Dinamik RPM Kohort
+              Simülatörü (Mali & Operasyonel Karar Destek)
+            </h2>
+            <p class="text-xs text-slate-400 mt-1">
+              Simülatör parametrelerini değiştirin. Erlang-C kuyruk teoremi ve
+              SGK bütçe tasarrufları anında güncellenecektir.
+            </p>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div
+              class="bg-slate-900 border border-slate-800 rounded-xl p-5 space-y-5 lg:col-span-1"
+            >
+              <h3
+                class="text-xs font-bold text-white uppercase tracking-wider border-b border-slate-800 pb-2.5"
+              >
+                Kontrol Paneli
+              </h3>
+
+              <div class="space-y-1">
+                <div class="flex justify-between text-xs">
+                  <span class="text-slate-400 font-semibold"
+                    >Toplam Hasta Havuzu ($N$):</span
+                  >
+                  <span class="text-teal-400 font-bold" id="val-toplamHasta"
+                    >6.000</span
+                  >
+                </div>
+                <input
+                  oninput="updateSim()"
+                  id="slide-toplamHasta"
+                  type="range"
+                  min="1000"
+                  max="15000"
+                  step="500"
+                  value="6000"
+                  class="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer"
+                />
+              </div>
+
+              <div class="space-y-1">
+                <div class="flex justify-between text-xs">
+                  <span class="text-slate-400 font-semibold"
+                    >Yüksek Riskli Oranı (%):</span
+                  >
+                  <span class="text-teal-400 font-bold" id="val-riskOrani"
+                    >20%</span
+                  >
+                </div>
+                <input
+                  oninput="updateSim()"
+                  id="slide-riskOrani"
+                  type="range"
+                  min="5"
+                  max="50"
+                  step="5"
+                  value="20"
+                  class="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer"
+                />
+              </div>
+
+              <div class="space-y-1">
+                <div class="flex justify-between text-xs">
+                  <span class="text-slate-400 font-semibold"
+                    >Hasta Başı Günlük Alarm ($\lambda$):</span
+                  >
+                  <span class="text-teal-400 font-bold" id="val-alarmOrani"
+                    >0.12</span
+                  >
+                </div>
+                <input
+                  oninput="updateSim()"
+                  id="slide-alarmOrani"
+                  type="range"
+                  min="0.05"
+                  max="0.30"
+                  step="0.01"
+                  value="0.12"
+                  class="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer"
+                />
+              </div>
+
+              <div class="space-y-1">
+                <div class="flex justify-between text-xs">
+                  <span class="text-slate-400 font-semibold"
+                    >Ort. Çözüm Süresi ($T_{res}$ dk):</span
+                  >
+                  <span class="text-teal-400 font-bold" id="val-cozumSuresi"
+                    >12 dk</span
+                  >
+                </div>
+                <input
+                  oninput="updateSim()"
+                  id="slide-cozumSuresi"
+                  type="range"
+                  min="5"
+                  max="30"
+                  step="1"
+                  value="12"
+                  class="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer"
+                />
+              </div>
+
+              <div class="space-y-1">
+                <div class="flex justify-between text-xs">
+                  <span class="text-slate-400 font-semibold"
+                    >Yoğun Bakım Günlük (TRY):</span
+                  >
+                  <span
+                    class="text-teal-400 font-bold"
+                    id="val-yogunBakimMaliyet"
+                    >12.000 TRY</span
+                  >
+                </div>
+                <input
+                  oninput="updateSim()"
+                  id="slide-yogunBakimMaliyet"
+                  type="range"
+                  min="5000"
+                  max="25000"
+                  step="1000"
+                  value="12000"
+                  class="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer"
+                />
+              </div>
+
+              <div class="space-y-1">
+                <div class="flex justify-between text-xs">
+                  <span class="text-slate-400 font-semibold"
+                    >Ort. Personel Yıllık (TRY):</span
+                  >
+                  <span class="text-teal-400 font-bold" id="val-personelMaas"
+                    >450.000 TRY</span
+                  >
+                </div>
+                <input
+                  oninput="updateSim()"
+                  id="slide-personelMaas"
+                  type="range"
+                  min="250000"
+                  max="800000"
+                  step="25000"
+                  value="450000"
+                  class="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer"
+                />
+              </div>
+            </div>
+
+            <div class="lg:col-span-2 space-y-6">
+              <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div
+                  class="bg-slate-900 border border-slate-800 rounded-xl p-3 text-center"
+                >
+                  <span class="text-[9px] font-bold text-slate-400 uppercase"
+                    >Aktif Alarm Sayısı</span
+                  >
+                  <div
+                    class="text-base font-black text-white mt-1"
+                    id="res-gunlukAlarm"
+                  >
+                    720 / gün
+                  </div>
+                  <span class="text-[9px] text-slate-500"
+                    >Ort. <span id="res-saatlikAlarm">30</span> / saat</span
+                  >
+                </div>
+                <div
+                  class="bg-slate-900 border border-slate-800 rounded-xl p-3 text-center"
+                >
+                  <span class="text-[9px] font-bold text-slate-400 uppercase"
+                    >Erlang İş Yükü (A)</span
+                  >
+                  <div
+                    class="text-base font-black text-white mt-1"
+                    id="res-erlangYuku"
+                  >
+                    6.00 Erl
+                  </div>
+                  <span class="text-[9px] text-slate-500"
+                    >Trafik Yoğunluğu ($a=\frac{\lambda_m}{\mu}$)</span
+                  >
+                </div>
+                <div
+                  class="bg-slate-900 border border-slate-800 rounded-xl p-3 text-center"
+                >
+                  <span class="text-[9px] font-bold text-slate-400 uppercase"
+                    >Gerekli Shift Hemşire</span
+                  >
+                  <div
+                    class="text-base font-black text-teal-400 mt-1"
+                    id="res-shiftHemsire"
+                  >
+                    10 Kişi
+                  </div>
+                  <span class="text-[9px] text-slate-500"
+                    >Kuyruk Gecikmesi: < 15sn</span
+                  >
+                </div>
+                <div
+                  class="bg-slate-900 border border-slate-800 rounded-xl p-3 text-center"
+                >
+                  <span class="text-[9px] font-bold text-slate-400 uppercase"
+                    >Komuta Merkezi FTE</span
+                  >
+                  <div
+                    class="text-base font-black text-teal-400 mt-1"
+                    id="res-toplamFTE"
+                  >
+                    395 FTE
+                  </div>
+                  <span class="text-[9px] text-slate-500"
+                    >7/24 Kesintisiz Kadro [24]</span
+                  >
+                </div>
+              </div>
+
+              <div
+                class="bg-slate-900 border border-slate-800 rounded-xl p-4 flex flex-col md:flex-row justify-between items-center gap-4"
+              >
+                <div class="space-y-1">
+                  <h4
+                    class="text-xs font-bold text-white uppercase tracking-wider"
+                  >
+                    Kuyruk Teorisi Triage Modellemesi
+                  </h4>
+                  <p class="text-[11px] text-slate-400 leading-relaxed">
+                    Alarm kuyruk birikimini ve kritik yanıt gecikmelerini
+                    önlemek amacıyla hemşire kadrosu Erlang-C formülüyle
+                    hesaplanmaktadır:
+                    <span class="text-teal-300 font-semibold"
+                      >$c \approx a + 1.65\sqrt{a}$</span
+                    >.
+                  </p>
+                </div>
+                <div
+                  class="bg-slate-800 px-3 py-2 rounded text-xs font-mono text-teal-300 select-none"
+                >
+                  Offered Load (a) =
+                  <span id="eq-offeredLoad">6.00</span> Erlang
+                </div>
+              </div>
+
+              <div class="bg-slate-900 border border-slate-800 rounded-xl p-5">
+                <h3
+                  class="text-sm font-bold text-white uppercase tracking-wider mb-4 border-b border-slate-800 pb-2.5"
+                >
+                  Simüle Edilen Yıllık Mali Defter
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div
+                    class="space-y-2 border-r border-slate-800/80 pr-0 md:pr-4"
+                  >
+                    <h4 class="text-xs font-bold text-yellow-500 uppercase">
+                      Engellenen Geleneksel Giderler
+                    </h4>
+                    <div class="space-y-2 text-xs">
+                      <div class="flex justify-between">
+                        <span class="text-slate-400"
+                          >Yoğun Bakım Gün Kazancı (<span id="roi-icuDays"
+                            >18.000</span
+                          >
+                          gün):</span
+                        >
+                        <span class="text-white" id="roi-icuValue"
+                          >216.000.000 TL</span
+                        >
+                      </div>
+                      <div class="flex justify-between">
+                        <span class="text-slate-400"
+                          >Akut Servis Gün Kazancı (<span id="roi-acuteDays"
+                            >15.000</span
+                          >
+                          gün):</span
+                        >
+                        <span class="text-white" id="roi-acuteValue"
+                          >52.500.000 TL</span
+                        >
+                      </div>
+                      <div class="flex justify-between">
+                        <span class="text-slate-400"
+                          >Acil Servis Başvuru Kazancı (<span id="roi-edDays"
+                            >12.000</span
+                          >
+                          adet):</span
+                        >
+                        <span class="text-white" id="roi-edValue"
+                          >18.000.000 TL</span
+                        >
+                      </div>
+                      <div
+                        class="border-t border-slate-800 pt-2.5 flex justify-between font-bold text-sm text-yellow-500 mt-2"
+                      >
+                        <span>Toplam Kazanılan Değer:</span>
+                        <span id="roi-totalAvoided">286.500.000 TL</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="space-y-2">
+                    <h4 class="text-xs font-bold text-teal-400 uppercase">
+                      Yeni Sanal Servis (RPM) İşletim Gideri
+                    </h4>
+                    <div class="space-y-2 text-xs">
+                      <div class="flex justify-between">
+                        <span class="text-slate-400"
+                          >Amorti Kit Sourcing (Sut Altyapı):</span
+                        >
+                        <span class="text-white" id="roi-hardware"
+                          >12.000.000 TL</span
+                        >
+                      </div>
+                      <div class="flex justify-between">
+                        <span class="text-slate-400"
+                          >Yaman Sarf Malzemesi (PPG):</span
+                        >
+                        <span class="text-white" id="roi-patches"
+                          >12.480.000 TL</span
+                        >
+                      </div>
+                      <div class="flex justify-between">
+                        <span class="text-slate-400"
+                          >USBS Bulut & Yazılım Lisanslama:</span
+                        >
+                        <span class="text-white" id="roi-software"
+                          >7.200.000 TL</span
+                        >
+                      </div>
+                      <div class="flex justify-between">
+                        <span class="text-slate-400"
+                          >Komuta Merkezi Personel Bordro:</span
+                        >
+                        <span class="text-white" id="roi-payroll"
+                          >177.750.000 TL</span
+                        >
+                      </div>
+                      <div
+                        class="border-t border-slate-800 pt-2.5 flex justify-between font-bold text-sm text-teal-400 mt-2"
+                      >
+                        <span>Toplam RPM Gideri:</span>
+                        <span id="roi-totalRPM">209.430.000 TL</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div
+                  class="bg-gradient-to-r from-teal-950 to-slate-900 border border-teal-800/60 p-4 rounded-xl mt-6 flex flex-col md:flex-row justify-between items-center gap-4 shadow-inner"
+                >
+                  <div>
+                    <span
+                      class="text-xs text-teal-300 font-bold uppercase tracking-wider block"
+                      >SGK YILLIK NET BÜTÇE KAZANCI</span
+                    >
+                    <span
+                      class="text-[10px] text-slate-400 mt-1 block leading-relaxed"
+                      >Yatırım amortismanı ve tüm personel bordroları
+                      düşüldükten sonraki net mali etki.</span
+                    >
+                  </div>
+                  <div class="text-right">
+                    <div
+                      class="text-xl md:text-2xl font-black text-green-400"
+                      id="roi-netSavings"
+                    >
+                      77.070.000 TRY / yıl
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="bg-slate-900 border border-slate-800 rounded-xl p-5">
+                <h3
+                  class="text-sm font-bold text-white uppercase tracking-wider mb-3"
+                >
+                  Maliyet Dağılım Karşılaştırması
+                </h3>
+                <div class="h-64 relative">
+                  <canvas id="chart-savings"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="tab-plan" class="tab-content space-y-6 hidden">
+          <div class="border-b border-slate-800 pb-4">
+            <h2
+              class="text-xl font-extrabold text-white flex items-center gap-2.5"
+            >
+              <i class="fa-solid fa-clipboard-list text-teal-400"></i> Teknik ve
+              Klinik Uygulama Master Planı
+            </h2>
+            <p class="text-xs text-slate-400 mt-1">
+              Türkiye genelinde uzaktan hasta takibini hayata geçirmek için
+              tescil, donanım, personel ve saha kurulumu adımları.
+            </p>
+          </div>
+
+          <div
+            class="bg-slate-900 border border-slate-800 rounded-xl p-5 space-y-4"
+          >
+            <h3
+              class="text-sm font-bold text-white uppercase tracking-wider mb-2"
+            >
+              Kurulum Yol Haritası (12 Aylık Pilot Proje)
+            </h3>
+
+            <div class="relative pl-6 border-l-2 border-teal-600 space-y-6">
+              <div class="relative">
+                <div
+                  class="absolute -left-[31px] top-0 bg-teal-600 w-4 h-4 rounded-full border-4 border-slate-900"
+                ></div>
+                <h4
+                  class="text-xs font-bold text-teal-300 uppercase tracking-wider"
+                >
+                  Aşama 1: Regülasyon, Tescil ve Entegrasyonlar (Ay 1 - 3)
+                </h4>
+                <ul
+                  class="text-xs text-slate-400 mt-2 space-y-2 list-disc pl-4 leading-relaxed"
+                >
+                  <li>
+                    <strong>USBS Tescil Süreci:</strong> Geliştirilen yazılımın
+                    Sağlık Bakanlığı Uzaktan Sağlık Bilgi Sistemi tescil
+                    listesine kaydedilmesi.[25]
+                  </li>
+                  <li>
+                    <strong>Milli API Pipelines:</strong> MERNIS (Kimlik
+                    Doğrulama), e-Nabız (Vital Veri Aktarımı), Doktor Bilgi
+                    Bankası (Hekim Doğrulama) ve e-Reçete/e-Rapor
+                    entegrasyonlarının kurulması.[26]
+                  </li>
+                  <li>
+                    <strong>KVKK 12-Ay Kuralı:</strong> Uzaktan muayene
+                    esnasındaki görüntülü/sesli kayıtların tam 12 ay sonunda
+                    otomatik olarak silineceği, verilerin yalnızca şifreli
+                    medikal veri setlerine dönüştürüleceği dual-database
+                    mimarisinin entegrasyonu.[27]
+                  </li>
+                </ul>
+              </div>
+
+              <div class="relative">
+                <div
+                  class="absolute -left-[31px] top-0 bg-teal-600 w-4 h-4 rounded-full border-4 border-slate-900"
+                ></div>
+                <h4
+                  class="text-xs font-bold text-teal-300 uppercase tracking-wider"
+                >
+                  Aşama 2: Donanım Tedariği ve Edge Veri Testleri (Ay 4 - 6)
+                </h4>
+                <ul
+                  class="text-xs text-slate-400 mt-2 space-y-2 list-disc pl-4 leading-relaxed"
+                >
+                  <li>
+                    <strong>Gateway Hub Seçimi:</strong> Kırsal Anadolu
+                    bölgelerindeki evlerde standart Wi-Fi bulunmaması riskine
+                    karşı dual-sim ve LTE-M (Cat-M1/NB-IoT) veri kartına sahip
+                    bağımsız oditoryum gateway hub alımı.[28, 29]
+                  </li>
+                  <li>
+                    <strong>Sensör Kalibrasyonları:</strong> Temassız EKG
+                    patches, tansiyon aletleri ve nabız oksimetrelerinin
+                    ($SpO_{2}$) gateway cihazıyla Bluetooth eşleşme
+                    kalibrasyonu.[19, 29]
+                  </li>
+                  <li>
+                    <strong>Edge Veri Sıkıştırması:</strong> Şebekeyi yormamak
+                    ve batarya ömrünü korumak adına sadece anormal vital veri
+                    dalgalanmalarında (NEWS2 > 5) şebekeye paket gönderen
+                    "biyometrik edge-computing" firmware yazılması.
+                  </li>
+                </ul>
+              </div>
+
+              <div class="relative">
+                <div
+                  class="absolute -left-[31px] top-0 bg-teal-600 w-4 h-4 rounded-full border-4 border-slate-900"
+                ></div>
+                <h4
+                  class="text-xs font-bold text-teal-300 uppercase tracking-wider"
+                >
+                  Aşama 3: Dijital Komuta Merkezi ve Akademik Kadro Beslemesi
+                  (Ay 7 - 9)
+                </h4>
+                <ul
+                  class="text-xs text-slate-400 mt-2 space-y-2 list-disc pl-4 leading-relaxed"
+                >
+                  <li>
+                    <strong>Komuta Merkezi Kurulumu:</strong> 6.000 hastanın
+                    verilerini tek konsolda risk önceliğine (NEWS2 erken uyarı
+                    skorları) göre listeleyecek klinisyen arayüzlerinin hastane
+                    HBYS'leri ile entegrasyonu.
+                  </li>
+                  <li>
+                    <strong>Tele-Sağlık Teknikerliği:</strong> Atlas
+                    Üniversitesi gibi yenilikçi kurumların bünyesinde kurulan
+                    "Tele-Sağlık Teknikerliği" ön lisans programı mezunlarını
+                    bünyeye katarak saha kurulum, uzaktan donanım kalibrasyon ve
+                    teknik bakım desteğini garantiye almak.[24]
+                  </li>
+                  <li>
+                    <strong>Hemşire Kadrosu:</strong> Kardiyoloji ve göğüs
+                    hastalıkları deneyimli hemşirelerin sisteme entegre
+                    edilmesi, Erlang-C modeline göre vardiya planlaması.
+                  </li>
+                </ul>
+              </div>
+
+              <div class="relative">
+                <div
+                  class="absolute -left-[31px] top-0 bg-teal-600 w-4 h-4 rounded-full border-4 border-slate-900"
+                ></div>
+                <h4
+                  class="text-xs font-bold text-teal-300 uppercase tracking-wider"
+                >
+                  Aşama 4: Saha Ekipleri ve Mobil Hızlı Müdahale (Ay 10 - 12)
+                </h4>
+                <ul
+                  class="text-xs text-slate-400 mt-2 space-y-2 list-disc pl-4 leading-relaxed"
+                >
+                  <li>
+                    <strong>Mobil Ekipler:</strong> Kırıkkale modelindeki gibi
+                    (8 mobil ekip, 13 araç) [30] hastanelerle tam entegre
+                    çalışacak ve komuta merkezinden gelen "klinik sapma"
+                    alarmlarına müdahale edecek 12 araçlık hızlı müdahale filosu
+                    kurulumu.
+                  </li>
+                  <li>
+                    <strong>Yerinde Girişim Yeteneği:</strong> Geleneksel
+                    sisteme yük getiren pansuman, mesane sondası değişimi, kan
+                    tahlili alımı ve hatta evde IV diüretik tedavisi / NIV
+                    solunum desteği gibi girişimlerin doğrudan evde
+                    yapılması.[30]
+                  </li>
+                  <li>
+                    <strong>Acil Servis Bypassı:</strong> Durumu kritik olmayan
+                    fakat stabilizasyon isteyen hastaların acile yönlendirilmesi
+                    yerine mobil ekiplerce yerinde çözülerek acil servislerin
+                    dekonjestasyonu.[30]
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer
+      class="bg-slate-900 border-t border-slate-800 py-4 text-center text-xs text-slate-500 mt-auto"
+    >
+      <div
+        class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-2"
+      >
+        <span
+          >© 2026 T.C. Sağlık Bakanlığı Mevzuatı ve SGK SUT Teşvikleri Uyumlu
+          Stratejik Rapor.</span
+        >
+        <span class="flex items-center gap-1.5"
+          ><i class="fa-solid fa-lock text-teal-400"></i> HIPAA & KVKK
+          Dual-Database Uyumlu [27]</span
+        >
+      </div>
+    </footer>
+
+    <script>
+      // DOM Tab Değiştirme Fonksiyonu
+      function switchTab(tabId) {
+        document
+          .querySelectorAll(".tab-content")
+          .forEach((el) => el.classList.add("hidden"));
+        document.querySelectorAll("aside button").forEach((btn) => {
+          btn.classList.remove("active-tab", "text-white");
+          btn.classList.add("text-slate-400");
+        });
+
+        document.getElementById(tabId).classList.remove("hidden");
+        const activeBtn = document.getElementById("btn-" + tabId);
+        activeBtn.classList.add("active-tab", "text-white");
+        activeBtn.classList.remove("text-slate-400");
+
+        if (tabId === "tab-simulator") {
+          updateSim();
+        }
+      }
+
+      // Global Grafik Nesnesi
+      let savingsChart = null;
+
+      function updateSim() {
+        // Girdileri Al
+        const toplamHasta = parseInt(
+          document.getElementById("slide-toplamHasta").value,
+        );
+        const riskOrani = parseInt(
+          document.getElementById("slide-riskOrani").value,
+        );
+        const alarmOrani = parseFloat(
+          document.getElementById("slide-alarmOrani").value,
+        );
+        const cozumSuresi = parseInt(
+          document.getElementById("slide-cozumSuresi").value,
+        );
+        const yogunBakimMaliyet = parseInt(
+          document.getElementById("slide-yogunBakimMaliyet").value,
+        );
+        const personelMaas = parseInt(
+          document.getElementById("slide-personelMaas").value,
+        );
+
+        // Arayüz Değerlerini Güncelle
+        document.getElementById("val-toplamHasta").innerText =
+          toplamHasta.toLocaleString("tr-TR");
+        document.getElementById("val-riskOrani").innerText = riskOrani + "%";
+        document.getElementById("val-alarmOrani").innerText =
+          alarmOrani.toFixed(2);
+        document.getElementById("val-cozumSuresi").innerText =
+          cozumSuresi + " dk";
+        document.getElementById("val-yogunBakimMaliyet").innerText =
+          yogunBakimMaliyet.toLocaleString("tr-TR") + " TRY";
+        document.getElementById("val-personelMaas").innerText =
+          personelMaas.toLocaleString("tr-TR") + " TRY";
+
+        const pHigh = riskOrani / 100;
+        const pMed = 1 - pHigh;
+
+        const yuksekRiskAdet = Math.round(toplamHasta * pHigh);
+        const ortaRiskAdet = toplamHasta - yuksekRiskAdet;
+
+        // Alarm ve Kuyruk Teorisi Hesaplamaları (Erlang-C)
+        const gunlukAlarm = Math.round(toplamHasta * alarmOrani);
+        const saatlikAlarm = gunlukAlarm / 24;
+        const lambdaMin = saatlikAlarm / 60; // Dakika başına alarm
+        const mu = 1 / cozumSuresi; // Bir hemşirenin dakika başına çözüm hızı
+        const offeredLoad = lambdaMin / mu; // Erlang Cinsinden Trafik Yoğunluğu (a)
+
+        // Erlang kadro tahmini
+        let triageNurses = Math.ceil(
+          offeredLoad + 1.65 * Math.sqrt(offeredLoad),
+        );
+        if (triageNurses < 2) triageNurses = 2; // Yedeklilik için minimum kadro
+
+        // Rutin takip ve vizit yapan kadro gereksinimleri
+        const highRoundingNurses = Math.ceil(yuksekRiskAdet / 50);
+        const medRoundingNurses = Math.ceil(ortaRiskAdet / 100);
+
+        const shiftDoctors = 4;
+        const shiftTechs = 8;
+        const totalShiftStaff =
+          triageNurses +
+          highRoundingNurses +
+          medRoundingNurses +
+          shiftDoctors +
+          shiftTechs;
+
+        // 7/24 kesintisiz kapsama katsayısı (4.2 FTE standardı)
+        const totalFTE = Math.round(totalShiftStaff * 4.2);
+
+        // Kuyruk detaylarını ekrana yaz
+        document.getElementById("res-gunlukAlarm").innerText =
+          gunlukAlarm.toLocaleString("tr-TR") + " / gün";
+        document.getElementById("res-saatlikAlarm").innerText =
+          Math.round(saatlikAlarm);
+        document.getElementById("res-erlangYuku").innerText =
+          offeredLoad.toFixed(2) + " Erl";
+        document.getElementById("res-shiftHemsire").innerText =
+          triageNurses + " Kişi";
+        document.getElementById("res-toplamFTE").innerText = totalFTE + " FTE";
+        document.getElementById("eq-offeredLoad").innerText =
+          offeredLoad.toFixed(2);
+
+        // Engellenen Geleneksel Hastane Maliyetleri (Yıllık)
+        const icuDaysSaved = Math.round(yuksekRiskAdet * 0.3 * 10); // %30'u yılda 1 kez 10 gün yoğun bakımdan kaçınır
+        const acuteDaysSaved = Math.round(ortaRiskAdet * 0.1 * 10); // %10'u yılda 1 kez 10 gün yatıştan kaçınır
+        const edVisitsSaved = Math.round(ortaRiskAdet * 0.4); // %40'ı acil başvurudan kaçınır
+
+        const icuAvoidedCost = icuDaysSaved * yogunBakimMaliyet;
+        const acuteAvoidedCost = acuteDaysSaved * 3500; // Akut yatak SUT tabanı
+        const edAvoidedCost = edVisitsSaved * 1500; // Acil servis giriş SUT
+
+        const totalAvoidedCost =
+          icuAvoidedCost + acuteAvoidedCost + edAvoidedCost;
+
+        // Yeni RPM Sistemi Maliyetleri (Yıllık)
+        const capexHardwareAmortized = Math.round((toplamHasta * 6000) / 3); // 6000 TL kit maliyeti, 3 yıl amortisman
+        const patchCost = yuksekRiskAdet * 26 * 400; // Yılda 26 yama, yama başı 400 TL
+        const softwareLicensing = toplamHasta * 1200; // Yıllık hasta başı 1200 TL USBS/yazılım lisansı
+
+        // Ağırlıklı Personel Gideri (Hekimler 3x, Teknikerler 1.2x, Hemşireler 1x taban maaş)
+        const weightedPayroll = Math.round(
+          (totalFTE *
+            personelMaas *
+            ((triageNurses + highRoundingNurses + medRoundingNurses) * 1.0 +
+              shiftDoctors * 3.0 +
+              shiftTechs * 1.2)) /
+            totalShiftStaff,
+        );
+
+        const totalRPMCost =
+          capexHardwareAmortized +
+          patchCost +
+          softwareLicensing +
+          weightedPayroll;
+        const netSavings = totalAvoidedCost - totalRPMCost;
+
+        // DOM'a Yazdır
+        document.getElementById("roi-icuDays").innerText =
+          icuDaysSaved.toLocaleString("tr-TR");
+        document.getElementById("roi-icuValue").innerText =
+          icuAvoidedCost.toLocaleString("tr-TR") + " TL";
+        document.getElementById("roi-acuteDays").innerText =
+          acuteDaysSaved.toLocaleString("tr-TR");
+        document.getElementById("roi-acuteValue").innerText =
+          acuteAvoidedCost.toLocaleString("tr-TR") + " TL";
+        document.getElementById("roi-edDays").innerText =
+          edVisitsSaved.toLocaleString("tr-TR");
+        document.getElementById("roi-edValue").innerText =
+          edAvoidedCost.toLocaleString("tr-TR") + " TL";
+
+        document.getElementById("roi-totalAvoided").innerText =
+          totalAvoidedCost.toLocaleString("tr-TR") + " TL";
+
+        document.getElementById("roi-hardware").innerText =
+          capexHardwareAmortized.toLocaleString("tr-TR") + " TL";
+        document.getElementById("roi-patches").innerText =
+          patchCost.toLocaleString("tr-TR") + " TL";
+        document.getElementById("roi-software").innerText =
+          softwareLicensing.toLocaleString("tr-TR") + " TL";
+        document.getElementById("roi-payroll").innerText =
+          weightedPayroll.toLocaleString("tr-TR") + " TL";
+
+        document.getElementById("roi-totalRPM").innerText =
+          totalRPMCost.toLocaleString("tr-TR") + " TL";
+
+        const savingsEl = document.getElementById("roi-netSavings");
+        if (netSavings >= 0) {
+          savingsEl.innerText =
+            "+" + netSavings.toLocaleString("tr-TR") + " TRY / yıl";
+          savingsEl.className = "text-xl md:text-2xl font-black text-green-400";
+        } else {
+          savingsEl.innerText =
+            netSavings.toLocaleString("tr-TR") + " TRY / yıl";
+          savingsEl.className = "text-xl md:text-2xl font-black text-rose-500";
+        }
+
+        // Grafiği Çiz
+        updateChart(totalAvoidedCost, totalRPMCost, netSavings);
+      }
+
+      function updateChart(avoided, opex, net) {
+        const ctx = document.getElementById("chart-savings").getContext("2d");
+
+        if (savingsChart) {
+          savingsChart.destroy();
+        }
+
+        savingsChart = new Chart(ctx, {
+          type: "bar",
+          data: {
+            labels: [
+              "Önlenen Geleneksel Gider",
+              "Yeni RPM İşletim Gideri",
+              "SGK Net Tasarrufu",
+            ],
+            datasets: [
+              {
+                label: "Milyon TL",
+                data: [avoided / 1000000, opex / 1000000, net / 1000000],
+                backgroundColor: [
+                  "rgba(234, 179, 8, 0.2)",
+                  "rgba(15, 118, 110, 0.2)",
+                  "rgba(34, 197, 94, 0.2)",
+                ],
+                borderColor: ["#eab308", "#0f766e", "#22c55e"],
+                borderWidth: 1.5,
+                borderRadius: 6,
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: {
+                display: false,
+              },
+            },
+            scales: {
+              y: {
+                beginAtZero: true,
+                grid: {
+                  color: "rgba(51, 65, 85, 0.3)",
+                },
+                ticks: {
+                  color: "#94a3b8",
+                  callback: function (value) {
+                    return value.toFixed(1) + "M TL";
+                  },
+                },
+              },
+              x: {
+                grid: {
+                  display: false,
+                },
+                ticks: {
+                  color: "#94a3b8",
+                },
+              },
+            },
+          },
+        });
+      }
+
+      document.addEventListener("DOMContentLoaded", function () {
+        if (typeof renderMathInElement === "function") {
+          renderMathInElement(document.body, {
+            delimiters: [
+              { left: "$$", right: "$$", display: true },
+              { left: "$", right: "$", display: false },
+            ],
+          });
+        }
+      });
+    </script>
+  </body>
+</html>
