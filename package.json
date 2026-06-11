@@ -9,7 +9,8 @@
     "build": "vite build && node scripts/copy-spa-fallback.mjs",
     "preview": "vite preview",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist"
+    "deploy": "gh-pages -d dist",
+    "install": "npm install"
   },
   "dependencies": {
     "gh-pages": "^6.3.0",
