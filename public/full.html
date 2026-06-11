@@ -1,0 +1,1225 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VC Pitch - İstanbul Uzaktan Sağlık Yönetimi</title>
+    <link
+      rel="preconnect"
+      href="[https://fonts.googleapis.com](https://fonts.googleapis.com)"
+    />
+    <link
+      rel="preconnect"
+      href="[https://fonts.gstatic.com](https://fonts.gstatic.com)"
+      crossorigin
+    />
+    <link
+      href="[https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap](https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap)"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="[https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css](https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css)"
+    />
+    <link
+      rel="stylesheet"
+      href="[https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css](https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css)"
+    />
+    <script src="[https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js](https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js)"></script>
+    <style>
+      :root {
+        --bg-color: #020617;
+        --panel-bg: #0f172a;
+        --text-main: #f8fafc;
+        --text-muted: #94a3b8;
+        --accent-cyan: #00f0ff;
+        --accent-purple: #8b5cf6;
+        --accent-pink: #f43f5e;
+        --border-color: #1e293b;
+        --neon-green: #10b981;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        background-color: #090d16;
+        color: var(--text-main);
+        font-family: "Inter", sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        overflow: hidden;
+      }
+
+      #presentation-wrapper {
+        position: relative;
+        width: 1280px;
+        height: 720px;
+        background-color: var(--panel-bg);
+        border-radius: 16px;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+        border: 1px solid var(--border-color);
+        overflow: hidden;
+      }
+
+      /* Arka Plan Parlama Efektleri */
+      #presentation-wrapper::before {
+        content: "";
+        position: absolute;
+        width: 600px;
+        height: 600px;
+        background: radial-gradient(
+          circle,
+          rgba(0, 240, 255, 0.05) 0%,
+          rgba(0, 0, 0, 0) 70%
+        );
+        top: -200px;
+        right: -200px;
+        border-radius: 50%;
+        z-index: 0;
+        pointer-events: none;
+      }
+
+      #presentation-wrapper::after {
+        content: "";
+        position: absolute;
+        width: 600px;
+        height: 600px;
+        background: radial-gradient(
+          circle,
+          rgba(139, 92, 246, 0.05) 0%,
+          rgba(0, 0, 0, 0) 70%
+        );
+        bottom: -200px;
+        left: -200px;
+        border-radius: 50%;
+        z-index: 0;
+        pointer-events: none;
+      }
+
+      .slide {
+        position: absolute;
+        inset: 0;
+        padding: 50px 80px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        opacity: 0;
+        pointer-events: none;
+        transform: translateX(100px);
+        transition:
+          opacity 0.5s ease,
+          transform 0.5s ease;
+        z-index: 10;
+      }
+
+      .slide.active {
+        opacity: 1;
+        pointer-events: auto;
+        transform: translateX(0);
+      }
+
+      .slide.prev {
+        transform: translateX(-100px);
+      }
+
+      h1,
+      h2,
+      h3,
+      h4 {
+        font-family: "Space Grotesk", sans-serif;
+        font-weight: 700;
+      }
+
+      h1 {
+        font-size: 56px;
+        line-height: 1.1;
+        letter-spacing: -2px;
+        background: linear-gradient(135deg, #fff 30%, var(--accent-cyan) 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .slide-title {
+        font-size: 32px;
+        border-bottom: 1px solid var(--border-color);
+        padding-bottom: 10px;
+        margin-bottom: 20px;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .slide-title span {
+        color: var(--accent-cyan);
+        font-size: 13px;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        font-family: "Inter", sans-serif;
+      }
+
+      p {
+        font-size: 16px;
+        color: var(--text-muted);
+        line-height: 1.6;
+      }
+
+      .content-area {
+        flex-grow: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        margin-bottom: 30px;
+      }
+
+      .two-column {
+        display: flex;
+        gap: 40px;
+        width: 100%;
+      }
+
+      .two-column > div {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      .bullet-list ul {
+        list-style: none;
+      }
+
+      .bullet-list li {
+        position: relative;
+        padding-left: 30px;
+        margin-bottom: 12px;
+        font-size: 16px;
+        color: var(--text-muted);
+      }
+
+      .bullet-list li strong {
+        color: var(--text-main);
+      }
+
+      .bullet-list li i {
+        position: absolute;
+        left: 0;
+        top: 4px;
+        color: var(--accent-cyan);
+        font-size: 16px;
+      }
+
+      .highlight-numbers-layout > div:first-child {
+        flex: 0 0 40%;
+        text-align: center;
+      }
+
+      .number {
+        color: var(--accent-pink);
+        font-size: 100px;
+        font-family: "Space Grotesk", sans-serif;
+        font-weight: 700;
+        line-height: 1;
+      }
+
+      .number-label {
+        font-size: 18px;
+        font-weight: 600;
+        color: var(--text-main);
+        margin-top: 5px;
+      }
+
+      .tiled-content {
+        display: flex;
+        gap: 20px;
+        width: 100%;
+      }
+
+      .tile {
+        background-color: var(--bg-color);
+        border-radius: 12px;
+        border: 1px solid var(--border-color);
+        padding: 24px;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        transition: transform 0.3s ease;
+      }
+
+      .tile:hover {
+        transform: translateY(-5px);
+        border-color: var(--accent-cyan);
+      }
+
+      .tile.icon {
+        font-size: 28px;
+        color: var(--accent-cyan);
+        margin-bottom: 5px;
+      }
+
+      .tile h3 {
+        font-size: 18px;
+        color: var(--text-main);
+      }
+
+      .tile p {
+        font-size: 14px;
+        line-height: 1.5;
+      }
+
+      #controls {
+        position: absolute;
+        bottom: 30px;
+        left: 80px;
+        right: 80px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        z-index: 100;
+      }
+
+      .control-btn {
+        background: var(--bg-color);
+        border: 1px solid var(--border-color);
+        color: var(--text-main);
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+      }
+
+      .control-btn:hover {
+        background: var(--accent-cyan);
+        color: var(--bg-color);
+        border-color: var(--accent-cyan);
+      }
+
+      #progress-indicator {
+        display: flex;
+        gap: 8px;
+      }
+
+      .progress-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background-color: var(--border-color);
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .progress-dot.active {
+        background-color: var(--accent-cyan);
+        width: 24px;
+        border-radius: 4px;
+      }
+
+      .chart-container {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        width: 100%;
+      }
+
+      .bar {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+      }
+
+      .bar.label {
+        flex: 0 0 240px;
+        text-align: right;
+        font-weight: 600;
+        color: var(--text-main);
+        font-size: 15px;
+      }
+
+      .bar.bar-inner {
+        flex-grow: 1;
+        background-color: var(--bg-color);
+        border: 1px solid var(--border-color);
+        height: 35px;
+        border-radius: 6px;
+        overflow: hidden;
+      }
+
+      .bar.bar-fill {
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        padding-right: 15px;
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--bg-color);
+        border-radius: 6px;
+      }
+
+      .chart-summary {
+        font-style: italic;
+        text-align: center;
+        margin-top: 15px;
+        color: var(--text-muted);
+        font-size: 14px;
+      }
+
+      .sim-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 25px;
+        width: 100%;
+      }
+
+      .sim-card {
+        background-color: var(--bg-color);
+        border-radius: 12px;
+        border: 1px solid var(--border-color);
+        padding: 20px;
+        position: relative;
+      }
+
+      .sim-card.hybrid {
+        border-color: var(--accent-cyan);
+      }
+
+      .sim-card.hybrid::before {
+        content: "ÖNERİLEN ÇÖZÜM";
+        position: absolute;
+        top: -10px;
+        right: 20px;
+        background-color: var(--accent-cyan);
+        color: var(--bg-color);
+        font-weight: 700;
+        font-size: 9px;
+        padding: 2px 8px;
+        border-radius: 4px;
+        letter-spacing: 1px;
+      }
+
+      .sim-card h3 {
+        font-size: 18px;
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .sim-metric {
+        display: flex;
+        justify-content: space-between;
+        border-bottom: 1px solid var(--border-color);
+        padding: 8px 0;
+        font-size: 14px;
+      }
+
+      .sim-metric:last-child {
+        border-bottom: none;
+      }
+
+      .sim-metric span:first-child {
+        color: var(--text-muted);
+      }
+
+      .sim-metric span:last-child {
+        color: var(--text-main);
+        font-weight: 600;
+      }
+
+      .gains-panel {
+        background: linear-gradient(
+          90deg,
+          rgba(0, 240, 255, 0.08) 0%,
+          rgba(139, 92, 246, 0.08) 100%
+        );
+        border: 1px solid rgba(0, 240, 255, 0.25);
+        border-radius: 12px;
+        width: 100%;
+        margin-top: 15px;
+        padding: 12px 20px;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+      }
+
+      .gain-box {
+        text-align: center;
+      }
+
+      .gain-box.val {
+        font-size: 22px;
+        font-weight: 700;
+        color: var(--accent-cyan);
+        font-family: "Space Grotesk", sans-serif;
+      }
+
+      .gain-box.lbl {
+        font-size: 11px;
+        color: var(--text-muted);
+        margin-top: 3px;
+      }
+
+      .highlight-green {
+        color: var(--neon-green) !important;
+      }
+      .highlight-red {
+        color: var(--accent-pink) !important;
+      }
+
+      .area-chart-container {
+        width: 100%;
+        padding: 5px;
+      }
+
+      .area-chart-svg {
+        height: 220px;
+        width: 100%;
+        overflow: visible;
+      }
+
+      .area-chart-svg.grid {
+        stroke-width: 1;
+        stroke: var(--border-color);
+      }
+
+      .area-chart-svg.line-stroke {
+        fill: none;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-width: 3;
+      }
+
+      .area-chart-svg.data-point {
+        fill: var(--panel-bg);
+        stroke-width: 2.5;
+      }
+
+      .area-chart-svg.axis-labels {
+        fill: var(--text-muted);
+        font-size: 11px;
+      }
+
+      .image-wrapper {
+        background: var(--bg-color);
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+        height: 260px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+      }
+
+      .image-wrapper img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        opacity: 0.8;
+      }
+
+      .section-title-layout {
+        text-align: center;
+        max-width: 800px;
+      }
+
+      .section-title-layout h2 {
+        font-size: 38px;
+        margin-bottom: 15px;
+      }
+
+      .section-title-layout p {
+        font-size: 18px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="presentation-wrapper">
+      <div class="slide active" id="slide-1">
+        <div></div>
+        <div class="content-area">
+          <div class="section-title-layout">
+            <h1>Haseki Başarı Kriterleriyle İstanbul Sağlık Yönetimi</h1>
+            <p class="subtitle" style="margin-top: 15px">
+              Yapay Zeka (LLM) ve Uzaktan İzleme ile Geleneksel Evde Bakım
+              Karşılaştırması
+            </p>
+          </div>
+        </div>
+        <div></div>
+      </div>
+
+      <div class="slide" id="slide-2">
+        <div class="slide-title">
+          <h2>Geleneksel Model: Haseki Fatih Örneği</h2>
+          <span>SAHA ANALİZİ</span>
+        </div>
+        <div class="content-area">
+          <div class="two-column highlight-numbers-layout">
+            <div>
+              <div class="number">58K</div>
+              <div class="number-label">Toplam Hizmet Verilen Hasta</div>
+            </div>
+            <div>
+              <h3>Haseki Evde Sağlık Birimi Gerçek Verileri</h3>
+              <p style="margin-bottom: 12px">
+                Haseki Birimi, Fatih Kampüsü merkezli olarak bugüne dek
+                kümülatif **58.314 hastaya** longitudinal bakım ulaştırmıştır
+                `[1]`.
+              </p>
+              <p style="margin-bottom: 12px">
+                Sistemde aylık aktif, sürekli rotasyon halinde olan kronik hasta
+                yükü ortalama **2.000 kişidir** `[2]`.
+              </p>
+              <p>
+                Bu 2.000 hastayı izlemek için **19 ayrı mobil medikal ekip**
+                sahada aktiftir. Bu ekipler; **2 uzman hekim, 11 pratisyen
+                hekim, 29 saha personeli** (hemşire, teknisyen) `[3, 4]` ve **5
+                idari personelden** (Toplam 47 FTE) oluşur.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+
+      <div class="slide" id="slide-3">
+        <div class="slide-title">
+          <h2>Haseki Modelinin İstanbul Ölçeğindeki Çıkmazı</h2>
+          <span>ÖLÇEKLENDİRME DARBOĞAZI</span>
+        </div>
+        <div class="content-area">
+          <div class="two-column">
+            <div class="bullet-list">
+              <ul>
+                <li>
+                  <i class="fa-solid fa-triangle-exclamation"></i>
+                  <strong>Sınırlı Kapasite:</strong> 16 milyonluk mega kent
+                  İstanbul'da Bakanlık hedefi doğrultusunda acil takip
+                  gereksinimi olan **64.000 hasta** bulunmaktadır `[5]`.
+                </li>
+                <li>
+                  <i class="fa-solid fa-people-group"></i>
+                  <strong>Doğrusal Ölçekleme Çıkmazı:</strong> Haseki'nin
+                  geleneksel metodolojisiyle 6.000 hastaya hizmet sunmak için
+                  tam **141 klinik personel** ve **57 mobil araç** sahaya
+                  çıkarılmalıdır.
+                </li>
+                <li>
+                  <i class="fa-solid fa-traffic-light"></i>
+                  <strong>İstanbul Trafiği Cezası:</strong> 57 mobil ekibin
+                  günde 15 saat yollarda kalması durumunda, zamanın %50'den
+                  fazlası Boğaz ve çevre yollarındaki trafik sıkışıklığında
+                  eriyip gitmektedir.
+                </li>
+              </ul>
+            </div>
+            <div>
+              <div class="image-wrapper">
+                <img
+                  src="http://googleusercontent.com/image_collection/image_retrieval/9020912507788468610"
+                  alt="Urban traffic congestion in Istanbul"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+
+      <div class="slide" id="slide-4">
+        <div class="slide-title">
+          <h2>Klinik Önceliklendirme (Triyaj) Modeli</h2>
+          <span>SAYISAL SEGMENTASYON</span>
+        </div>
+        <div class="content-area">
+          <div class="tiled-content">
+            <div class="tile">
+              <div class="icon">
+                <i class="fa-solid fa-mobile-screen-button"></i>
+              </div>
+              <h3>Sınıf 1: Düşük Risk</h3>
+              <p>
+                Stabil kronik diyabet ve hafif kalp yetmezliği hastaları `[2]`.
+                Rutin ziyaretler tamamen kesilerek asenkron bulut takibi ile
+                izlenir.
+              </p>
+            </div>
+            <div class="tile">
+              <div class="icon"><i class="fa-solid fa-hospital-user"></i></div>
+              <h3>Sınıf 2: Orta Risk</h3>
+              <p>
+                Frajil, böbrek veya akciğer yetmezliği olanlar `[6]`. Sürekli
+                telemetri takip edilir, sadece veri kötüleşmesi anında ziyaret
+                tetiklenir.
+              </p>
+            </div>
+            <div class="tile">
+              <div class="icon"><i class="fa-solid fa-bed-pulse"></i></div>
+              <h3>Sınıf 3: Yüksek Risk</h3>
+              <p>
+                Ventilatör ve cihaz bağımlısı palyatif grup `[2, 5]`. Fiziksel
+                müdahale şarttır. Telemetri, gitmeden önce ekibe kritik anlık
+                veri sağlar.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+
+      <div class="slide" id="slide-5">
+        <div class="slide-title">
+          <h2>Maliyet Karşılaştırması ve Birim Ekonomisi</h2>
+          <span>FİNANSAL VERİMLİLİK</span>
+        </div>
+        <div class="content-area">
+          <div class="two-column">
+            <div class="bullet-list">
+              <ul>
+                <li>
+                  <i class="fa-solid fa-wallet"></i>
+                  <strong>Yüksek Geleneksel Maliyet:</strong> Haseki
+                  lojistiğinde trafik nedeniyle günlük ziyaret verimliliği ekip
+                  başına 3'e düştüğünde vizit maliyeti **907 TL**'yi aşmaktadır.
+                </li>
+                <li>
+                  <i class="fa-solid fa-cloud"></i>
+                  <strong>Bulut/Yapay Zeka Maliyeti:</strong> 6.000 aktif
+                  hastayı kapsayan AWS/Azure bulut ve entegre LLM altyapısının
+                  maliyeti hasta başına aylık yalnızca **1.30$** (~43 TL)'dir.
+                </li>
+                <li>
+                  <i class="fa-solid fa-chart-line"></i>
+                  <strong>Kaldıraç Etkisi:</strong> Yapay zeka ve telemetri,
+                  gereksiz her 20 fiziksel ulaşımdan sadece birini önlese bile
+                  tüm dijital altyapı maliyetini tamamen karşılamaktadır.
+                </li>
+              </ul>
+            </div>
+            <div>
+              <div class="chart-container">
+                <div class="bar">
+                  <div class="label">Tek Bir Geleneksel Vizit</div>
+                  <div class="bar-inner">
+                    <div
+                      class="bar-fill"
+                      style="
+                        width: 95%;
+                        background: linear-gradient(90deg, #f43f5e, #be123c);
+                      "
+                    >
+                      907 TL
+                    </div>
+                  </div>
+                </div>
+                <div class="bar">
+                  <div class="label">Aylık Kişi Başı RPM Bulut</div>
+                  <div class="bar-inner">
+                    <div
+                      class="bar-fill"
+                      style="
+                        width: 10%;
+                        background: linear-gradient(90deg, #00f0ff, #0369a1);
+                      "
+                    >
+                      43 TL
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+
+      <div class="slide" id="slide-6">
+        <div class="slide-title">
+          <h2>Dünya Çapında Doğrulanmış Başarılar</h2>
+          <span>VALİDASYON</span>
+        </div>
+        <div class="content-area">
+          <div class="two-column tiled">
+            <div>
+              <h3 style="color: var(--accent-cyan); margin-bottom: 12px">
+                <i class="fa-solid fa-flag-usa"></i> VHA Telehealth (ABD)
+              </h3>
+              <div class="bullet-list">
+                <ul>
+                  <li>
+                    <i class="fa-solid fa-arrow-trend-down"></i>
+                    <strong>%40 Mortalite Düşüşü:</strong> Erken müdahale imkanı
+                    sayesinde tüm ölümlerde %40 bağımsız azalma `[7]`.
+                  </li>
+                  <li>
+                    <i class="fa-solid fa-hospital"></i>
+                    <strong>%25 Yatış Süresi Azalması:</strong> Hastanede
+                    geçirilen yatak gün sayısında %25 net düşüş `[8]`.
+                  </li>
+                  <li>
+                    <i class="fa-solid fa-coins"></i>
+                    <strong>Düşük Altyapı Maliyeti:</strong> Yıllık hasta başı
+                    sadece 1.600$ ile fiziksel ev ziyaretlerine kıyasla muazzam
+                    tasarruf `[8]`.
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div>
+              <h3 style="color: var(--accent-cyan); margin-bottom: 12px">
+                <i class="fa-solid fa-gb"></i> NHS Virtual Wards (İngiltere)
+              </h3>
+              <div class="bullet-list">
+                <ul>
+                  <li>
+                    <i class="fa-solid fa-shield-heart"></i>
+                    <strong>Yatak İşgali Engelleme:</strong> Yapılan her 2.5
+                    sanal servis yatışı, 1 adet plansız acil yatışın önüne geçer
+                    `[9]`.
+                  </li>
+                  <li>
+                    <i class="fa-solid fa-calendar-minus"></i>
+                    <strong>2.89 Gün Hızlı Taburculuk:</strong> Hastanede kalış
+                    süresini 2.89 gün kısaltarak klinik verimliliği artırır
+                    `[6]`.
+                  </li>
+                  <li>
+                    <i class="fa-solid fa-wallet"></i>
+                    <strong>Bütçe Güvencesi:</strong> Acil yatışların getirdiği
+                    yıllık 11 milyar £'lik devasa maliyet yükünü sanal
+                    ortamlarla azaltma `[10]`.
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+
+      <div class="slide" id="slide-7">
+        <div class="slide-title">
+          <h2>Lojistik Simülasyon: 6.000 Aktif Hasta Karşılaştırması</h2>
+          <span>SİMÜLASYON ANALİZİ</span>
+        </div>
+        <div class="content-area">
+          <div class="sim-grid">
+            <div class="sim-card">
+              <h3>
+                <i class="fa-solid fa-truck-monster highlight-red"></i> Haseki
+                Geleneksel Model (Ölçekli)
+              </h3>
+              <div class="sim-metric">
+                <span>Aylık Toplam Vizit</span><span>16.800 Ziyaret</span>
+              </div>
+              <div class="sim-metric">
+                <span>Günlük Ekip Başı Vizit</span
+                ><span class="highlight-red">3 Ziyaret (Trafik Kaybı)</span>
+              </div>
+              <div class="sim-metric">
+                <span>Gerekli Toplam Personel</span
+                ><span class="highlight-red"
+                  >141 Personel (6 Uzman, 33 Pratisyen, 87 Hemşire)</span
+                >
+              </div>
+              <div class="sim-metric">
+                <span>Günlük Aktif Filo/Araç</span
+                ><span class="highlight-red">57 Araç Sahada</span>
+              </div>
+              <div class="sim-metric">
+                <span>Aylık Toplam Maliyet</span
+                ><span class="highlight-red">10.215.000 TL</span>
+              </div>
+            </div>
+            <div class="sim-card hybrid">
+              <h3>
+                <i class="fa-solid fa-circle-nodes highlight-green"></i> Bizim
+                AI + RPM Hibrit Modelimiz
+              </h3>
+              <div class="sim-metric">
+                <span>Aylık Toplam Vizit</span
+                ><span>5.760 Ziyaret (Alarm Bazlı)</span>
+              </div>
+              <div class="sim-metric">
+                <span>Günlük Ekip Başı Vizit</span
+                ><span class="highlight-green"
+                  >12 Ziyaret (15s Vardiya, Çift Ekip)</span
+                >
+              </div>
+              <div class="sim-metric">
+                <span>Gerekli Toplam Personel</span
+                ><span class="highlight-green"
+                  >51 Personel (44 Saha Hemşiresi, 5 Triage, 2 Dok.)</span
+                >
+              </div>
+              <div class="sim-metric">
+                <span>Günlük Aktif Filo/Araç</span
+                ><span class="highlight-green">16 Araç Sahada</span>
+              </div>
+              <div class="sim-metric">
+                <span>Aylık Toplam Maliyet</span
+                ><span class="highlight-green">3.480.000 TL</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="gains-panel">
+          <div class="gain-box">
+            <div class="val">%64</div>
+            <div class="lbl">İş Gücü Azalması</div>
+          </div>
+          <div class="gain-box">
+            <div class="val">%72</div>
+            <div class="lbl">Saha Filo Tasarrufu</div>
+          </div>
+          <div class="gain-box">
+            <div class="val">6,73 Milyon TL</div>
+            <div class="lbl">Aylık Net Kazanç</div>
+          </div>
+          <div
+            class="gain-box"
+            style="
+              border-left: 1px solid rgba(0, 240, 255, 0.25);
+              padding-left: 20px;
+            "
+          >
+            <div class="val" style="color: var(--accent-pink)">
+              80,8 Milyon TL
+            </div>
+            <div class="lbl">Yıllık Toplam Tasarruf</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide" id="slide-8">
+        <div class="slide-title">
+          <h2>Kümülatif Aylık Maliyet Dağılımı ve Ölçek Ekonomisi</h2>
+          <span>ÖLÇEK EKONOMİSİ</span>
+        </div>
+        <div class="content-area">
+          <div class="area-chart-container">
+            <svg class="area-chart-svg" viewBox="0 0 1000 220">
+              <defs>
+                <linearGradient
+                  id="area-trad"
+                  x1="0%"
+                  y1="0%"
+                  x2="0%"
+                  y2="100%"
+                >
+                  <stop
+                    offset="0%"
+                    style="stop-color: #f43f5e"
+                    stop-opacity="0.35"
+                  ></stop>
+                  <stop
+                    offset="100%"
+                    style="stop-color: #f43f5e"
+                    stop-opacity="0.02"
+                  ></stop>
+                </linearGradient>
+                <linearGradient id="area-rpm" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop
+                    offset="0%"
+                    style="stop-color: #00f0ff"
+                    stop-opacity="0.45"
+                  ></stop>
+                  <stop
+                    offset="100%"
+                    style="stop-color: #00f0ff"
+                    stop-opacity="0.02"
+                  ></stop>
+                </linearGradient>
+              </defs>
+
+              <g class="grid">
+                <line x1="0" y1="180" x2="1000" y2="180"></line>
+                <line
+                  x1="0"
+                  y1="135"
+                  x2="1000"
+                  y2="135"
+                  stroke-dasharray="5 5"
+                ></line>
+                <line
+                  x1="0"
+                  y1="90"
+                  x2="1000"
+                  y2="90"
+                  stroke-dasharray="5 5"
+                ></line>
+                <line
+                  x1="0"
+                  y1="45"
+                  x2="1000"
+                  y2="45"
+                  stroke-dasharray="5 5"
+                ></line>
+                <line
+                  x1="0"
+                  y1="0"
+                  x2="1000"
+                  y2="0"
+                  stroke-dasharray="5 5"
+                ></line>
+              </g>
+
+              <path
+                d="M 0 180 L 250 135 L 500 90 L 750 45 L 1000 0 L 1000 180 Z"
+                style="fill: url(#area-trad); stroke: none"
+              ></path>
+              <polyline
+                class="line-stroke"
+                points="0,180 250,135 500,90 750,45 1000,0"
+                style="stroke: #f43f5e"
+              ></polyline>
+
+              <circle
+                class="data-point"
+                cx="250"
+                cy="135"
+                r="4.5"
+                style="stroke: #f43f5e"
+              ></circle>
+              <circle
+                class="data-point"
+                cx="500"
+                cy="90"
+                r="4.5"
+                style="stroke: #f43f5e"
+              ></circle>
+              <circle
+                class="data-point"
+                cx="750"
+                cy="45"
+                r="4.5"
+                style="stroke: #f43f5e"
+              ></circle>
+              <circle
+                class="data-point"
+                cx="1000"
+                cy="0"
+                r="4.5"
+                style="stroke: #f43f5e"
+              ></circle>
+
+              <path
+                d="M 0 165 L 250 161 L 500 157 L 750 153 L 1000 149 L 1000 180 Z"
+                style="fill: url(#area-rpm); stroke: none"
+              ></path>
+              <polyline
+                class="line-stroke"
+                points="0,165 250,161 500,157 750,153 1000,149"
+                style="stroke: #00f0ff"
+              ></polyline>
+
+              <circle
+                class="data-point"
+                cx="250"
+                cy="161"
+                r="4.5"
+                style="stroke: #00f0ff"
+              ></circle>
+              <circle
+                class="data-point"
+                cx="500"
+                cy="157"
+                r="4.5"
+                style="stroke: #00f0ff"
+              ></circle>
+              <circle
+                class="data-point"
+                cx="750"
+                cy="153"
+                r="4.5"
+                style="stroke: #00f0ff"
+              ></circle>
+              <circle
+                class="data-point"
+                cx="1000"
+                cy="149"
+                r="4.5"
+                style="stroke: #00f0ff"
+              ></circle>
+
+              <g class="axis-labels" style="text-anchor: end">
+                <text x="-10" y="185">0</text>
+                <text x="-10" y="140">2.5M TL</text>
+                <text x="-10" y="95">5.0M TL</text>
+                <text x="-10" y="50">7.5M TL</text>
+                <text x="-10" y="5">10M TL</text>
+              </g>
+              <g class="axis-labels" style="text-anchor: middle">
+                <text x="0" y="205">Gün 1</text>
+                <text x="250" y="205">Gün 7</text>
+                <text x="500" y="205">Gün 14</text>
+                <text x="750" y="205">Gün 21</text>
+                <text x="1000" y="205">Gün 30</text>
+              </g>
+            </svg>
+          </div>
+          <p class="chart-summary">
+            Haseki bazlı geleneksel model her yeni hasta ile doğrusal maliyet
+            artışına mecbur kalırken, önerilen hibrit sistemimiz ölçek büyüdükçe
+            birim maliyeti radikal seviyede aşağı çekmektedir.
+          </p>
+        </div>
+        <div></div>
+      </div>
+
+      <div class="slide" id="slide-9">
+        <div></div>
+        <div class="content-area">
+          <div class="section-title-layout">
+            <h2>Sağlığın Geleceğine Yatırım Yapın</h2>
+            <p
+              style="
+                margin-bottom: 40px;
+                color: var(--text-muted);
+                font-size: 18px;
+              "
+            >
+              Haseki Birimi'nin operasyonel standartlarını ileri teknolojiyle
+              harmanlayarak İstanbul genelinde sürdürülebilir bir sistem inşa
+              ediyoruz.
+            </p>
+            <p
+              id="math-formula"
+              style="
+                font-size: 20px;
+                color: var(--accent-cyan);
+                margin-bottom: 30px;
+              "
+            ></p>
+            <p
+              style="
+                font-size: 16px;
+                text-transform: uppercase;
+                letter-spacing: 2px;
+                color: var(--accent-cyan);
+              "
+            >
+              Soru - Cevap & Detaylı Fizibilite
+            </p>
+          </div>
+        </div>
+        <div></div>
+      </div>
+
+      <div id="controls">
+        <button class="control-btn" id="prev-btn" onclick="prevSlide()">
+          <i class="fa-solid fa-arrow-left"></i>
+        </button>
+        <div id="progress-indicator"></div>
+        <button class="control-btn" id="next-btn" onclick="nextSlide()">
+          <i class="fa-solid fa-arrow-right"></i>
+        </button>
+      </div>
+    </div>
+
+    <script>
+      const slides = document.querySelectorAll(".slide");
+      const progressIndicator = document.getElementById("progress-indicator");
+      let currentSlideIndex = 0;
+
+      // Dots create
+      slides.forEach((_, index) => {
+        const dot = document.createElement("div");
+        dot.classList.add("progress-dot");
+        if (index === 0) dot.classList.add("active");
+        dot.addEventListener("click", () => {
+          currentSlideIndex = index;
+          updateSlides();
+        });
+        progressIndicator.appendChild(dot);
+      });
+
+      const dots = document.querySelectorAll(".progress-dot");
+
+      function updateSlides() {
+        slides.forEach((slide, index) => {
+          slide.classList.remove("active", "prev");
+          dots[index].classList.remove("active");
+
+          if (index === currentSlideIndex) {
+            slide.classList.add("active");
+            dots[index].classList.add("active");
+          } else if (index < currentSlideIndex) {
+            slide.classList.add("prev");
+          }
+        });
+      }
+
+      function nextSlide() {
+        if (currentSlideIndex < slides.length - 1) {
+          currentSlideIndex++;
+          updateSlides();
+        }
+      }
+
+      function prevSlide() {
+        if (currentSlideIndex > 0) {
+          currentSlideIndex--;
+          updateSlides();
+        }
+      }
+
+      // Keyboard controls
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "ArrowRight" || e.key === " ") {
+          nextSlide();
+        } else if (e.key === "ArrowLeft") {
+          prevSlide();
+        }
+      });
+
+      // Autoscaling
+      function resizePresentation() {
+        const viewport = document.getElementById("presentation-wrapper");
+        const targetWidth = 1280;
+        const targetHeight = 720;
+
+        const wWidth = window.innerWidth - 40;
+        const wHeight = window.innerHeight - 40;
+
+        const scaleX = wWidth / targetWidth;
+        const scaleY = wHeight / targetHeight;
+        const scale = Math.min(scaleX, scaleY, 1);
+
+        viewport.style.transform = `scale(${scale})`;
+        viewport.style.transformOrigin = "center center";
+      }
+
+      window.addEventListener("resize", resizePresentation);
+      window.addEventListener("load", resizePresentation);
+
+      // KaTeX render formula on end slide
+      window.addEventListener("DOMContentLoaded", () => {
+        const formulaElement = document.getElementById("math-formula");
+        if (formulaElement && typeof katex !== "undefined") {
+          katex.render(
+            "\\text{Operasyonel Delta } (\\Delta) = (\\text{Saha Laboru} \\times \\text{Trafik Kaybı}) - \\text{Altyapı Gideri}",
+            formulaElement,
+            {
+              throwOnError: false,
+            },
+          );
+        }
+        setTimeout(resizePresentation, 100);
+      });
+    </script>
+  </body>
+</html>
