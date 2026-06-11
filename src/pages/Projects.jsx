@@ -1,6 +1,6 @@
 import { Navbar } from "../components/Navbar";
 import { SEOHead } from "../components/SEOHead";
-import { pageUrlForRoute, webPageJsonLd } from "../lib/seoJsonLd";
+import { innerBreadcrumbs, pageUrlForRoute, webPageJsonLd } from "../lib/seoJsonLd";
 import "../projects.css";
 
 import apexImg from "../img/apex.png";
@@ -66,7 +66,7 @@ export function Projects() {
             description: PROJECTS_DESCRIPTION,
             pageUrl: pageUrlForRoute("/projects"),
           }),
-          npm(window.location.origin, "projects", "Projects"),
+          innerBreadcrumbs(window.location.origin, "projects", "Projects"),
         ]}
       />
       <Navbar />
