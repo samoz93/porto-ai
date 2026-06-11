@@ -2,7 +2,7 @@
 
 ## Overview
 
-Personal site for **Sameh Zoaa**: physician + software engineer. Hosted on **GitHub Pages** with `base` `/porto-ai/`, **`BrowserRouter`** + post-build **`404.html`** (SPA shell copy of `index.html`) so path URLs resolve.
+Personal site for **Sameh Zoaa**: physician + software engineer. Hosted on **GitHub Pages** (`/porto-ai/`) and **Vercel** (domain root). **`BrowserRouter`** + post-build **`404.html`** (GitHub Pages SPA shell) + **`vercel.json`** rewrites (Vercel SPA).
 
 **Structured app overview (stack, routes, deploy):** [history/app-summary.md](history/app-summary.md).
 
@@ -10,6 +10,7 @@ Personal site for **Sameh Zoaa**: physician + software engineer. Hosted on **Git
 
 - Added **history/app-summary.md** (May 2026) — condensed walkthrough of app purpose, routes, SEO surface, deploy.
 - **history/browser-history-github-pages.md** — switched from HashRouter → BrowserRouter, `scripts/copy-spa-fallback.mjs`, path-based canonicals / sitemap / breadcrumbs.
+- **history/vercel-deploy-base-path.md** — Vercel MIME/module fix: `base` `/` when `VERCEL=1`, `vercel.json` SPA rewrites.
 
 ## SEO stance
 

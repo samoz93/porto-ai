@@ -3,5 +3,6 @@ import { defineConfig } from "vite";
 
 export default defineConfig({
   plugins: [react()],
-  base: "/porto-ai/",
+  // GitHub Pages uses /porto-ai/; Vercel serves from domain root.
+  base: process.env.VERCEL ? "/" : "/porto-ai/",
 });
